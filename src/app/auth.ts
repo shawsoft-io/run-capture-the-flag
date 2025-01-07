@@ -2,8 +2,8 @@ import NextAuth, { User } from "next-auth"
 import Strava from "next-auth/providers/strava"
 import { MongoDBAdapter } from "@auth/mongodb-adapter"
 import { ObjectId } from "mongodb"
-import  dbClient  from "@/lib/mongodb"
-import clientPromise from "@/lib/mongodb"
+import  dbClient  from "./lib/mongodb"
+import clientPromise from "./lib/mongodb"
 
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
