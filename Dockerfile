@@ -22,7 +22,21 @@ COPY . .
 # Uncomment the following line in case you want to disable telemetry during the build.
 # ENV NEXT_TELEMETRY_DISABLED 1
  
-RUN npm run build
+RUN --mount=type=secret,id=auth_secret \
+    --mount=type=secret,id=auth_strava_id \
+    --mount=type=secret,id=auth_strava_client_secret \
+    --mount=type=secret,id=auth_url \
+    --mount=type=secret,id=mongodb_uri \
+    --mount=type=secret,id=mongodb_name \
+    --mount=type=secret,id=next_public_base_url \
+    export AUTH_SECRET=$(cat /run/secrets/auth_secret) && \
+    export AUTH_STRAVA_ID=$(cat /run/secrets/auth_strava_id) && \
+    export AUTH_STRAVA_SECRET=$(cat /run/secrets/auth_strava_client_secret) && \
+    export AUTH_URL=$(cat /run/secrets/auth_url) && \
+    export MONGODB_URI=$(cat /run/secrets/mongodb_uri) && \
+    export MONGODB_NAME=$(cat /run/secrets/mongodb_name) && \
+    export NEXT_PUBLIC_BASE_URL=$(cat /run/secrets/next_public_base_url) && \
+    npm run build
  
 # Production image, copy all the files and run next
 FROM base AS runner
