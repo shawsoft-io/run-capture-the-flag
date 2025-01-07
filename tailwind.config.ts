@@ -11,6 +11,9 @@ export default {
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
+        dark: "#221f20",
+        hotpink: "#ea319d",
+        strava: "#fC4C02"
       },
     },
   },
