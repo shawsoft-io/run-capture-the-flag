@@ -34,7 +34,7 @@ RUN --mount=type=secret,id=auth_secret \
     export MONGODB_NAME=$(cat /run/secrets/mongodb_name) && \
     export NEXT_PUBLIC_BASE_URL=$(cat /run/secrets/next_public_base_url) && \
     npm run build && \
-    npx tsc --project tsconfig.webjob.json # Compile WebJob files
+    npx tsc --project tsconfig.json # Compile WebJob files
 
 # Production image, copy all files
 FROM base AS runner
