@@ -40,7 +40,7 @@ RUN --mount=type=secret,id=auth_secret \
 
 # Production image, copy all the files and run next
 FROM base AS runner
-WORKDIR /app
+WORKDIR /src
  
 ENV NODE_ENV production
 # Uncomment the following line in case you want to disable telemetry during runtime.
