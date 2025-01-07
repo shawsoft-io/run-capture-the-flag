@@ -1,27 +1,43 @@
 {
   "compilerOptions": {
     "target": "ES2017",
-    "lib": ["dom", "dom.iterable", "esnext"],
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
-    "noEmit": true,
+    "noEmit": false, // Allow emitting compiled files
     "esModuleInterop": true,
-    "module": "esnext",
-    "moduleResolution": "bundler",
+    "outDir": "./dist", // Output compiled files here
+    "tsBuildInfoFile": "./.tsbuildinfo",
+    "module": "commonjs", // Use CommonJS for compatibility with Node.js
+    "moduleResolution": "node", // Resolve modules in Node.js style
     "resolveJsonModule": true,
-    "isolatedModules": true,
+    "isolatedModules": true, // Allow multi-file compilation for WebJob
     "jsx": "preserve",
     "incremental": true,
+    "paths": {
+      "@/*": [
+        "./src/app/*"
+      ]
+    },
     "plugins": [
       {
         "name": "next"
       }
-    ],
-    "paths": {
-      "@/*": ["./src/*"]
-    }
+    ]
   },
-  "include": ["next-env.d.ts", "./types/*.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/app/types/User.ts.old"],
-  "exclude": ["node_modules"]
+  "include": [
+    "./src/app/**/*", // Include Next.js app files
+    "./src/webjob/**/*", // Include WebJob files
+    ".next/types/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    ".next",
+    "dist"
+  ]
 }

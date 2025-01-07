@@ -10,7 +10,7 @@ export default async function Page() {
 
   return (
     
-    <div className="flex flex-col items-center justify-center  h-full py-20 gap-y-5">
+    <div className="flex flex-col items-center justify-center  h-full py-20z gap-y-5">
       
       <div className="max-w-lg w-full bg-white shadow-md rounded-lg p-6">
         <h1 className="text-2xl font-bold text-center mb-4">Profile</h1>
