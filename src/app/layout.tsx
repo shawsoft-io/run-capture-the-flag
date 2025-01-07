@@ -1,8 +1,8 @@
 import "./globals.css";
 import type { Metadata } from "next";
-import { auth } from "@/app/auth";
-import Header from "@/app/components/Header/page";
-import Footer from "@/app/components/Footer/page";
+import { auth } from "./auth";
+import Header from "./components/Header/page";
+import Footer from "./components/Footer/page";
 
 export const metadata: Metadata = {
   title: "Run",
