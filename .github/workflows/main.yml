@@ -23,16 +23,16 @@ jobs:
       uses: docker/login-action@v2
       with: 
         registry: ghcr.io
-        username: ${{ secrets.GHCR_USERNAME }}
-        password: ${{ secrets.GHCR_PASSWORD }}
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Build and push container image to registry
       uses: docker/build-push-action@v6
       with:
         push: true
         tags: |
-          ghcr.io/${{ secrets.GHCR_USERNAME }}/shawsoft-io/run-capture-the-flag:${{ github.sha }}
-          ghcr.io/${{ secrets.GHCR_USERNAME }}/shawsoft-io/un-capture-the-flag:latest
+          ghcr.io/${{ github.repository_owner }}/shawsoft-io/run-capture-the-flag:${{ github.sha }}
+          ghcr.io/${{ github.repository_owner }}/shawsoft-io/un-capture-the-flag:latest
         file: ./Dockerfile
         secrets: |
           "auth_secret=${{ secrets.AUTH_SECRET }}"
@@ -55,10 +55,10 @@ jobs:
       id: deploy-to-webapp
       uses: azure/webapps-deploy@v2
       with:
-        app-name: 'stockport-cu'
+        app-name: 'capture-the-flag-docker'
         slot-name: 'production'
         publish-profile: ${{ secrets.AZURE_PUBLISH_PROFILE }}
-        images: 'ghcr.io/${{ secrets.GHCR_USERNAME }}/shawsoft-io/un-capture-the-flag:latest'
+        images: 'ghcr.io/${{ secrets.GITHUB_TOKEN }}/shawsoft-io/un-capture-the-flag:latest'
       env:
         AUTH_SECRET: ${{ secrets.AUTH_SECRET }}
         AUTH_STRAVA_ID: ${{ secrets.AUTH_STRAVA_ID }}
