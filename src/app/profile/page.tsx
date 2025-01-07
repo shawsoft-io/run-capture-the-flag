@@ -15,7 +15,7 @@ export default async function Page() {
               <img
                 src={session.user?.image}
                 alt="Profile"
-                className="w-24 h-24 rounded-full shadow-lg"
+                className="w-24 h-24 rounded-full shadow-lg" 
               />
             ) : (
               <span className="flex items-center justify-center text-3xl font-extrabold text-gray-500 bg-gray-200 w-24 h-24 rounded-full">
