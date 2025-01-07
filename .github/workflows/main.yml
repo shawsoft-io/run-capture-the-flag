@@ -66,4 +66,4 @@ jobs:
         AUTH_URL: ${{ vars.AUTH_URL }}
         MONGODB_URI: ${{ secrets.MONGODB_URI }}
         MONGODB_NAME: ${{ vars.MONGODB_NAME }}
-        NEXT_PUBLIC_BASE_URL: ${{ vars.NEXT_PUBLIC_BASE_URL }}
+        NEXT_PUBLIC_BASE_URL: ${{ vars.NEXT_PUBLIC_BASE_URL }} 
