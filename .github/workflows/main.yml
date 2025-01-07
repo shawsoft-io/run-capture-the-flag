@@ -32,7 +32,7 @@ jobs:
         push: true
         tags: |
           ghcr.io/${{ github.repository_owner }}/shawsoft-io/run-capture-the-flag:${{ github.sha }}
-          ghcr.io/${{ github.repository_owner }}/shawsoft-io/un-capture-the-flag:latest
+          ghcr.io/${{ github.repository_owner }}/shawsoft-io/run-capture-the-flag:latest
         file: ./Dockerfile
         secrets: |
           "auth_secret=${{ secrets.AUTH_SECRET }}"
@@ -58,8 +58,9 @@ jobs:
         app-name: 'capture-the-flag-docker'
         slot-name: 'production'
         publish-profile: ${{ secrets.AZURE_PUBLISH_PROFILE }}
-        images: 'ghcr.io/${{ secrets.GITHUB_TOKEN }}/shawsoft-io/un-capture-the-flag:latest'
+        images: 'ghcr.io/${{ secrets.GITHUB_TOKEN }}/shawsoft-io/run-capture-the-flag:latest'
       env:
+        NODE_VERSION: '20'
         AUTH_SECRET: ${{ secrets.AUTH_SECRET }}
         AUTH_STRAVA_ID: ${{ secrets.AUTH_STRAVA_ID }}
         AUTH_STRAVA_SECRET: ${{ secrets.AUTH_STRAVA_SECRET }}
