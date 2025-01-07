@@ -1,6 +1,6 @@
 
 import { Disclosure, Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react'
-import { auth } from '@/auth'
+import { auth } from '@/app/auth'
 import Link from 'next/link'
 import Navigation from '@/app/components/Navigation/page'
 

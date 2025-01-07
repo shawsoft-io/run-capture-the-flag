@@ -1,4 +1,4 @@
-import { auth } from "@/auth"
+import { auth } from "@/app/auth"
 import Link from "next/link"
 
 const navigation = [

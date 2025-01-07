@@ -37,7 +37,7 @@ RUN --mount=type=secret,id=auth_secret \
     export MONGODB_NAME=$(cat /run/secrets/mongodb_name) && \
     export NEXT_PUBLIC_BASE_URL=$(cat /run/secrets/next_public_base_url) && \
     npm run build
- 
+
 # Production image, copy all the files and run next
 FROM base AS runner
 WORKDIR /app

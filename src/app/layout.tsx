@@ -1,6 +1,6 @@
 import "./globals.css";
 import type { Metadata } from "next";
-import { auth } from "@/auth";
+import { auth } from "@/app/auth";
 import Header from "@/app/components/Header/page";
 import Footer from "@/app/components/Footer/page";
 
