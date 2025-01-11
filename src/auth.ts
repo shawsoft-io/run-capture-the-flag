@@ -16,7 +16,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       clientSecret: process.env.AUTH_STRAVA_SECRET!,
         authorization : {
             params: {
-                scope:  "read_all activity:read_all" 
+                scope:  "read_all,activity:read_all" 
             }
         },
       },
