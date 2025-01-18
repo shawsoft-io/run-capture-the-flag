@@ -1,6 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server';
+import AzureQueueManager from '../../../lib/queue';
 
-const STRAVA_VERIFY_TOKEN = process.env.STRAVA_VERIFY_TOKEN; // Your Strava verification token
+const connectionString = process.env.AZURE_STORAGE_CONNECTION_STRING || '';
+const queueName = process.env.QUEUE_NAME || '';
+
+const azureQueue = new AzureQueueManager(connectionString, queueName);
+const STRAVA_VERIFY_TOKEN = process.env.STRAVA_VERIFY_TOKEN; 
 
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
@@ -16,24 +21,16 @@ export async function GET(req: NextRequest) {
 
 export async function POST(req: NextRequest) {
   try {
-    const event = await req.json();
+    const message = await req.json();
 
-    console.log('Received Strava event:', event);
-
-    // Process the event based on its aspect type
-    switch (event.aspect_type) {
-      case 'create':
-        console.log('New activity created:', event.object_id);
-        break;
-      case 'update':
-        console.log('Activity updated:', event.object_id);
-        break;
-      case 'delete':
-        console.log('Activity deleted:', event.object_id);
-        break;
-      default:
-        console.log('Unhandled event type:', event.aspect_type);
+    
+    if (!message) {
+      return NextResponse.json({ error: 'Invalid event' }, { status: 400 });
     }
+
+    await azureQueue.ensureQueueExists();
+
+    const response = await azureQueue.sendMessage(message);
 
     return NextResponse.json({ success: true }, { status: 200 });
   } catch (error) {

@@ -1,16 +1,25 @@
-import { signIn, auth } from "../../auth"
-import { redirect } from "next/navigation";
+'use client'
+import { useUser } from "@auth0/nextjs-auth0/client";
+import { redirect, useRouter } from "next/navigation";
 
-export default async function Page() {
+export default function Page() {
 
-  const session = await auth();
+  const { user, isLoading, error } = useUser(); 
 
-  if(session) redirect('/dashboard');
+  if(user)
+    redirect("/dashboard")
+
+  const router = useRouter();
+
+  const login = () => {
+    router.push('/api/auth/login');
+  };
+
 
   return (
     <>
 
-      <div className="flex flex-col py-12 px-4 sm:px-6 lg:px-8 bg-hotpink z-20">
+      <div className="flex flex-col mt-40 py-12 px-4 sm:px-6 lg:px-8 bg-hotpink z-20">
         <div className="sm:mx-auto sm:w-full sm:max-w-md">
           <img
             alt=""
@@ -29,12 +38,9 @@ export default async function Page() {
             <div className="">
               
             <form
-      action={async () => {
-        "use server"
-        await signIn("strava", { redirectTo: "/profile"})
-      }}
+
     >
-      <button type="submit">
+      <button type="submit" onClick={login}>
         <img src="button-connect-with-strava.png" alt=""/>
       </button>
 

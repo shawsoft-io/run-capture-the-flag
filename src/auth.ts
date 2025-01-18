@@ -1,3 +1,4 @@
+/*
 import NextAuth, { User } from "next-auth"
 import Strava from "next-auth/providers/strava"
 import { MongoDBAdapter } from "@auth/mongodb-adapter"
@@ -19,6 +20,14 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
                 scope:  "read_all,activity:read_all" 
             }
         },
+        profile(profile) {
+          return {
+            id: profile.id.toString(),
+            name: profile.firstname + " " + profile.lastname,
+            image: profile.profile,
+            athleteId: profile.id,
+          };
+        },
       },
     ),
   ],
@@ -38,6 +47,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         { _id: new ObjectId(user.id) },
         {
           $set: {
+            athleteId: user.athleteId,
             image: user.image,
             lastLoginAt: new Date()
           },
@@ -57,6 +67,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         { _id: new ObjectId(user.id) },
         {
           $set: {
+            athleteId: user.athleteId,
             role: "athlete", // default role
             verified: false,
             createdAt: new Date(),
@@ -67,3 +78,4 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     }      
   }
 })
+  */

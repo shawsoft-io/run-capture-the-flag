@@ -1,19 +1,19 @@
-
+'use client'
 import { Disclosure, Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react'
-import { auth } from '../../auth'
 import Link from 'next/link'
-import Navigation from '../Navigation/page'
+import Navigation from './Navigation'
+import { useUser } from '@auth0/nextjs-auth0/client';
 
 const userNavigation = [
-  { name: 'View Profile', href: '#' },
-  { name: 'Sign out', href: '#' },
+  { name: 'View Profile', href: '/profile' },
+  { name: 'Sign out', href: '/api/auth/logout' },
 ]
 
 
 
-export default async function Header() {
+export default function Header() {
 
-const session = await auth();
+  const { user, isLoading, error } = useUser();
 
   return (          
       <div className='fixed min-w-full z-[999]'>
@@ -40,7 +40,7 @@ const session = await auth();
               </div>
 
                 {/* USER MENU */}
-              {session?.user && 
+              {user && 
               <div className="block">
                 <div className="ml-4 flex items-center md:ml-6">
 
@@ -50,19 +50,15 @@ const session = await auth();
                         <span className="absolute -inset-1.5" />
                         <span className="sr-only ">Open user menu</span>
                        
-                        {session?.user?.image ? (
+                        {user?.picture ? (
                             <img
-                            src={session.user?.image}
+                            src={user?.picture}
                             alt="Profile"
                             className="size-12 rounded-full"
                             />
                         ) : (    
                             <span className="size-12 rounded-full bg-white py-[14px] font-bold text-center">
-                            {session?.user?.name
-                                ?.split(" ")
-                                .map((word) => word[0])
-                                .join("")
-                                .toUpperCase() || "?"}
+                            ??
                             </span>
                         )}
 
