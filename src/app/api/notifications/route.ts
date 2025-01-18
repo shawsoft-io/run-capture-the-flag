@@ -30,8 +30,6 @@ export async function POST(req: NextRequest) {
 
     await azureQueue.ensureQueueExists();
 
-    const response = await azureQueue.sendMessage(message);
-
     return NextResponse.json({ success: true }, { status: 200 });
   } catch (error) {
     console.error('Error processing Strava webhook:', error);

@@ -1,5 +1,5 @@
 import "./globals.css";
-import { UserProvider, useUser } from '@auth0/nextjs-auth0/client';
+import { UserProvider} from '@auth0/nextjs-auth0/client';
 import type { Metadata } from "next";
 import Header from "../components/Header";
 import Footer from "../components/Footer";

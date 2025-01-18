@@ -4,7 +4,7 @@ import { redirect, useRouter } from "next/navigation";
 
 export default function Page() {
 
-  const { user, isLoading, error } = useUser(); 
+  const { user } = useUser(); 
 
   if(user)
     redirect("/dashboard")

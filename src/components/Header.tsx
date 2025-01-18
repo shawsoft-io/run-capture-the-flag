@@ -13,7 +13,7 @@ const userNavigation = [
 
 export default function Header() {
 
-  const { user, isLoading, error } = useUser();
+  const { user } = useUser();
 
   return (          
       <div className='fixed min-w-full z-[999]'>

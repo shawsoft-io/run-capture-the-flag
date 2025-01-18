@@ -1,13 +1,17 @@
-import { redirect } from 'next/navigation';
+'use client'
+import Authorization from '../../components/Authorization';
 
+const AdminPage = () => {
+  return (
+    <Authorization requiredRoles={['admin']}>
+      {(user) => (
+        <div>
+          <h1>Welcome, {user.name}</h1>
+          <p>Your roles: {(user['https://run.shawsoft.io/roles'] || []).join(', ')}</p>
+        </div>
+      )}
+    </Authorization>
+  );
+};
 
-export default async function Page()
-{
-
-    
-
-
-    return(
-        <p>Admin Page</p>
-    )
-}
+export default AdminPage;

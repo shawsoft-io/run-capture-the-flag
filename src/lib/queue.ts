@@ -1,4 +1,4 @@
-import { QueueClient } from '@azure/storage-queue';
+import { QueueClient, QueueSendMessageResponse } from '@azure/storage-queue';
 
 class AzureQueueManager {
   private queueClient: QueueClient;
@@ -20,8 +20,10 @@ class AzureQueueManager {
       if (createQueueResponse.succeeded) {
         console.log(`Queue '${this.queueClient.name}' created.`);
       }
-    } catch (error: any) {
-      console.error(`Error ensuring queue existence: ${error.message}`);
+    } catch (error: unknown) {
+      const errorMessage =
+        error instanceof Error ? error.message : 'Unknown error occurred while ensuring queue existence.';
+      console.error(`Error ensuring queue existence: ${errorMessage}`);
       throw new Error('Failed to ensure queue existence.');
     }
   }
@@ -31,9 +33,9 @@ class AzureQueueManager {
    * @param message The message to send (any serializable object).
    * @returns The response from the Azure Storage Queue service.
    */
-  async sendMessage(message: any): Promise<any> {
-    if (!message) {
-      throw new Error('Message cannot be empty.');
+  async sendMessage(message: unknown): Promise<QueueSendMessageResponse> {
+    if (message === null || message === undefined) {
+      throw new Error('Message cannot be null or undefined.');
     }
 
     try {
@@ -42,8 +44,10 @@ class AzureQueueManager {
       const response = await this.queueClient.sendMessage(messageText);
       console.log('Message added to the queue:', response.messageId);
       return response;
-    } catch (error: any) {
-      console.error(`Error sending message to queue: ${error.message}`);
+    } catch (error: unknown) {
+      const errorMessage =
+        error instanceof Error ? error.message : 'Unknown error occurred while sending message.';
+      console.error(`Error sending message to queue: ${errorMessage}`);
       throw new Error('Failed to send message to the queue.');
     }
   }

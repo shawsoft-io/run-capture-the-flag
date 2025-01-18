@@ -1,7 +1,7 @@
 'use client'
 import Authorization from '../../components/Authorization';
 
-export default async function Page() {
+export default  function Page() {
   
 
 

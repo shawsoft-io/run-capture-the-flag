@@ -16,7 +16,7 @@ return classes.filter(Boolean).join(' ')
 
 export default function Page()
 {
-    const { user, isLoading, error} = useUser()
+    const { user} = useUser()
     
     if(user)
     return(
