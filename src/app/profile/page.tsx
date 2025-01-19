@@ -19,10 +19,10 @@ export default function Page() {
               <img
                 src={user?.picture}
                 alt="Profile"
-                className="w-24 h-24 rounded-full shadow-lg"
+                className="w-32 h-32 rounded-full shadow-lg"
               />
             ) : (
-              <span className="flex items-center justify-center text-3xl font-extrabold text-gray-500 bg-gray-200 w-24 h-24 rounded-full">
+              <span className="flex items-center justify-center text-3xl font-extrabold text-gray-500 bg-gray-200 w-32 h-32 rounded-full">
                 ??
               </span>
             )}
@@ -30,16 +30,15 @@ export default function Page() {
             <table className="min-w-full divide-y divide-gray-300">
               <tbody className="divide-y divide-gray-200">
                 <tr>
-                  <td className="whitespace-nowrap py-4 pl-4 pr-3 text-md font-bold text-black sm:pl-0">{user?.name || "N/A"}</td>
-                </tr>
-                <tr>
-                  <td className="whitespace-nowrap py-4 pl-4 pr-3 text-xs font-semibold text-black sm:pl-0">Role</td>
-                  <td className="whitespace-nowrap px-3 py-3 text-xs text-gray-500">
+                  <td className="whitespace-nowrap py-4 pl-4 pr-3 text-md font-bold text-black sm:pl-0 gap-x-2">
+                    {user?.name || "N/A"}
                     <span className="inline-flex items-center rounded-md bg-pink-400/10 px-4 py-1 text-xs font-medium text-pink-400 ring-1 ring-inset ring-pink-400/20">
                       {user['https://run.shawsoft.io/roles'] || "n/a"}
                     </span>
+
                   </td>
                 </tr>
+
                 <tr>
                   <td className="whitespace-nowrap py-2 pl-4 pr-3 text-xs font-semibold text-black sm:pl-0">Athlete ID</td>
                   <td className="whitespace-nowrap px-3 py-4 text-xs text-gray-500">{user['https://run.shawsoft.io/athleteId'] || "n/a"}</td>
