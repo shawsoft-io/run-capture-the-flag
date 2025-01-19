@@ -19,12 +19,16 @@ COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
 # Build Next.js and WebJob
-RUN --mount=type=secret,id=auth_secret \
-    --mount=type=secret,id=auth_strava_id \
-    --mount=type=secret,id=auth_strava_client_secret \
-    --mount=type=secret,id=auth_url \
+RUN --mount=type=secret,id=auth0_secret \
+    --mount=type=secret,id=auth0_client_id \
+    --mount=type=secret,id=auth0_client_secret \
+    --mount=type=secret,id=auth0_base_url \
+    --mount=type=secret,id=auth0_issuer_base_url \
+    --mount=type=secret,id=strava_verify_token \
     --mount=type=secret,id=mongodb_uri \
     --mount=type=secret,id=mongodb_name \
+    --mount=type=secret,id=azure_storage_connection_string \
+    --mount=type=secret,id=queue_name \
     --mount=type=secret,id=next_public_base_url \
     export AUTH0_SECRET=$(cat /run/secrets/auth0_secret) && \
     export AUTH0_CLIENT_ID=$(cat /run/secrets/auth0_client_id) && \
