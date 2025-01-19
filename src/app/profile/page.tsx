@@ -7,7 +7,7 @@ export default function Page() {
   
   return (
     <Authorization>
-      {(user : ExtendedUserProfile) => 
+      {(user) => 
     <div className="flex mt-48 lg:flex-row flex-col mx-auto max-w-7xl pb-4 px-4 sm:px-6 lg:px-8 gap-x-10 lg:items-start items-center py-12 space-y-5 lg:space-y-0">
       {/* Left Column */}
       <div className="flex flex-col lg:w-1/3 w-full max-w-lg space-y-5">
@@ -51,6 +51,7 @@ export default function Page() {
             </table>
           </div>
         </div>
+        
 
         {/* Buttons Section */}
         <div className="bg-white shadow-md rounded-lg w-full ">

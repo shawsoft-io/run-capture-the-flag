@@ -1,0 +1,65 @@
+# syntax=docker/dockerfile:1
+
+# Stage 1: Base image for the app
+FROM node:20-alpine AS base
+
+# Install dependencies only when needed
+FROM base AS deps
+RUN apk add --no-cache libc6-compat
+WORKDIR /app
+
+# Install dependencies
+COPY package.json package-lock.json* ./
+RUN npm ci --only=production
+
+# Stage 2: Build Next.js app
+FROM base AS builder
+WORKDIR /app
+COPY --from=deps /app/node_modules ./node_modules
+COPY . .
+
+# Build Next.js app
+RUN npm run build
+
+# Stage 3: Build .NET Worker Service
+FROM mcr.microsoft.com/dotnet/sdk:7.0 AS dotnet-build
+WORKDIR /src
+COPY webjob/ .
+RUN dotnet publish -c Release -o /app/webjob
+
+# Stage 4: Final production image
+FROM node:20-alpine AS runner
+WORKDIR /app
+
+# Set environment variables for Next.js
+ENV NODE_ENV production
+ENV PORT 3000
+ENV HOSTNAME "0.0.0.0"
+
+# Add non-root user for security
+RUN addgroup --system --gid 1001 nodejs && adduser --system --uid 1001 nextjs
+
+# Copy Next.js build output
+COPY --from=builder /app/public ./public
+COPY --from=builder /app/.next/standalone ./
+COPY --from=builder /app/.next/static ./.next/static
+
+# Copy .NET Worker Service
+COPY --from=dotnet-build /app/webjob ./webjob
+
+# Install Supervisor for managing both processes
+RUN apk add --no-cache supervisor
+
+# Copy Supervisor configuration
+COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+
+# Set permissions
+RUN chown -R nextjs:nodejs .next webjob
+
+USER nextjs
+
+# Expose the Next.js port
+EXPOSE 3000
+
+# Start Supervisor to manage both processes
+CMD ["supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]

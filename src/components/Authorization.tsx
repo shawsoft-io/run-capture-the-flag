@@ -7,10 +7,10 @@ import type { ExtendedUserProfile } from '../app/types/auth0';
 
 interface ExtendedUserProps {
   children: (user: ExtendedUserProfile) => React.ReactNode;
-  loginPath?: string; 
-  unauthorizedPath?: string; 
-  pendingVerificationPath?: string; 
-  requiredRoles?: string[]; 
+  loginPath?: string;
+  unauthorizedPath?: string;
+  pendingVerificationPath?: string;
+  requiredRoles?: string[];
 }
 
 const Authorization: React.FC<ExtendedUserProps> = ({
@@ -24,42 +24,39 @@ const Authorization: React.FC<ExtendedUserProps> = ({
   const router = useRouter();
 
   useEffect(() => {
-    if (!isLoading) {
-      if (!user) {
-        // Redirect to login if not logged in
-        router.push(loginPath);
-      } else {
-        const userRoles = (user as ExtendedUserProfile)["https://run.shawsoft.io/roles"] || [];
+    if (isLoading) return; // Wait for loading to finish
 
-        // Redirect to pending verification if user has no role
-        if (userRoles.length === 0) {
-          router.push(pendingVerificationPath);
-        }
+    if (!user) {
+      router.push(loginPath);
+      return;
+    }
 
-        // Check if user has required roles
-        const hasRequiredRole = requiredRoles.some((role) => userRoles.includes(role));
+    const userRoles = (user as ExtendedUserProfile)?.["https://run.shawsoft.io/roles"] || [];
 
-        if (requiredRoles.length > 0 && !hasRequiredRole) {
-          // Redirect to unauthorized if user lacks required role
-          router.push(unauthorizedPath);
-        }
-      }
+    if (userRoles.length === 0) {
+      router.push(pendingVerificationPath);
+      return;
+    }
+
+    if (requiredRoles.length > 0 && !requiredRoles.some((role) => userRoles.includes(role))) {
+      router.push(unauthorizedPath);
     }
   }, [isLoading, user, router, loginPath, unauthorizedPath, pendingVerificationPath, requiredRoles]);
 
   if (isLoading) return <p>Loading...</p>;
-  if (error) return <p>Error: {error.message}</p>;
-
-  if (!user) return null; 
-  if (requiredRoles.length > 0) {
-    const userRoles = (user as ExtendedUserProfile)["https://run.shawsoft.io/roles"] || [];
-    const hasRequiredRole = requiredRoles.some((role) => userRoles.includes(role));
-    if (!hasRequiredRole) return null; 
+  if (error) {
+    console.error("Authorization Error:", error);
+    return <p>Error: {error.message}</p>;
   }
 
-  const extendedUser = user as ExtendedUserProfile;
+  if (!user) return <p>Redirecting to login...</p>;
 
-  return <>{children(extendedUser)}</>;
+  const userRoles = (user as ExtendedUserProfile)?.["https://run.shawsoft.io/roles"] || [];
+  const hasRequiredRole = requiredRoles.length === 0 || requiredRoles.some((role) => userRoles.includes(role));
+
+  if (!hasRequiredRole) return <p>You do not have permission to access this page.</p>;
+
+  return <>{children(user as ExtendedUserProfile)}</>;
 };
 
 export default Authorization;

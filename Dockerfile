@@ -18,7 +18,7 @@ WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
-# Build Next.js and WebJob
+# Build Next.js
 RUN --mount=type=secret,id=auth0_secret \
     --mount=type=secret,id=auth0_client_id \
     --mount=type=secret,id=auth0_client_secret \
@@ -42,6 +42,20 @@ RUN --mount=type=secret,id=auth0_secret \
     export QUEUE_NAME=$(cat /run/secrets/queue_name) && \
     export NEXT_PUBLIC_BASE_URL=$(cat /run/secrets/next_public_base_url) && \
     npm run build 
+
+
+
+# Stage 2: Build .NET Worker Service
+FROM mcr.microsoft.com/dotnet/sdk:7.0 AS dotnet-build
+WORKDIR /src
+COPY webjob/ .
+RUN dotnet publish -c Release -o /app/webjob
+
+
+# Stage 3: Combine everything
+FROM mcr.microsoft.com/dotnet/runtime:7.0 AS runtime
+WORKDIR /app
+
 
 # Production image, copy all files
 FROM base AS runner
