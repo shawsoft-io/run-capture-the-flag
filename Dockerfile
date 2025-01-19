@@ -57,9 +57,7 @@ COPY --from=builder /app/public ./public
 COPY --from=builder /app/.next/standalone ./
 COPY --from=builder /app/.next/static ./.next/static
 
-# Copy WebJob build output
-COPY --from=builder /app/dist/webjob ./webjob
-COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+
 
 # Set permissions
 RUN chown nextjs:nodejs .next
