@@ -37,8 +37,7 @@ RUN --mount=type=secret,id=auth_secret \
     export AZURE_STORAGE_CONNECTION_STRING=$(cat /run/secrets/azure_storage_connection_string) && \
     export QUEUE_NAME=$(cat /run/secrets/queue_name) && \
     export NEXT_PUBLIC_BASE_URL=$(cat /run/secrets/next_public_base_url) && \
-    npm run build && \
-    npx tsc --project tsconfig.json # Compile WebJob files
+    npm run build 
 
 # Production image, copy all files
 FROM base AS runner
