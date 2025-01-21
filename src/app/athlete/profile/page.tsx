@@ -43,7 +43,7 @@ export default function Page() {
                 </tr>
                 <tr>
                   <td className="whitespace-nowrap py-2 pl-4 pr-3 text-xs font-semibold text-black sm:pl-0">Verified</td>
-                  <td className="whitespace-nowrap px-3 py-4 text-xs text-gray-500">{user?.name ? "Yes" : "No"}</td>
+                  <td className="whitespace-nowrap px-3 py-4 text-xs text-gray-500">{user?.['https://run.shawsoft.io/roles'] ? "Yes" : "No"}</td>
                 </tr>
               </tbody>
             </table>

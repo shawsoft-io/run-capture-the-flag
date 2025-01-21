@@ -23,9 +23,8 @@ const Authorization: React.FC<ExtendedUserProps> = ({
   const router = useRouter();
 
   useEffect(() => {
-    if (isLoading) return; // Wait for loading to finish
 
-  
+    if (isLoading) return; // Wait for loading to finish
 
     const userRoles = (user as ExtendedUserProfile)?.["https://run.shawsoft.io/roles"] || [];
 

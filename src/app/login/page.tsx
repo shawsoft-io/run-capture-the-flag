@@ -34,7 +34,7 @@ export default function LoginPage() {
               'Lace up and sign in!', 
               'The running app that chat-gpt built!', 
               'Conquor the world!', 
-              'Why did the JavaScript runner keep getting slower', 
+              'Why did the JavaScript runner keep getting slower?', 
               'Because they couldn’t stop adding more async steps to their route 😊',
               'Let’s just all agree to beat Randle', 
             ]
@@ -42,9 +42,9 @@ export default function LoginPage() {
           loop={true} 
           cursor
           cursorStyle="_"
-          typeSpeed={70}
+          typeSpeed={50}
           deleteSpeed={0}
-          delaySpeed={1000}
+          delaySpeed={2000}
         />
         </h2>
       </div>

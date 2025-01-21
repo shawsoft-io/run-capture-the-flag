@@ -5,8 +5,8 @@ import Navigation from './Navigation'
 import { useUser } from '@auth0/nextjs-auth0/client';
 
 const userNavigation = [
-  { name: 'View Profile', href: '/profile' },
-  { name: 'Sign out', href: '/api/auth/logout' },
+  { name: 'View Profile', href: '/athlete/profile' },
+  { name: 'Sign out',     href: '/api/auth/logout' },
 ]
 
 
