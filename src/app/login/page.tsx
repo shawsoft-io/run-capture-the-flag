@@ -3,6 +3,7 @@
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useUser } from "@auth0/nextjs-auth0/client";
+import { Typewriter } from "react-simple-typewriter";
 
 export default function LoginPage() {
   const { user } = useUser();
@@ -27,7 +28,24 @@ export default function LoginPage() {
           className="mx-auto h-[260px] w-auto"
         />
         <h2 className="mt-10 text-4xl font-bold tracking-tight text-white">
-          Lace up and sign in
+        <Typewriter
+          words={
+            [
+              'Lace up and sign in!', 
+              'The running app that chat-gpt built!', 
+              'Conquor the world!', 
+              'Why did the JavaScript runner keep getting slower', 
+              'Because they couldn’t stop adding more async steps to their route 😊',
+              'Let’s just all agree to beat Randle', 
+            ]
+          }
+          loop={true} 
+          cursor
+          cursorStyle="_"
+          typeSpeed={70}
+          deleteSpeed={0}
+          delaySpeed={1000}
+        />
         </h2>
       </div>
 
