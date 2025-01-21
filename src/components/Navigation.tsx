@@ -1,8 +1,9 @@
 'use client';
 
-import { usePathname } from "next/navigation"; // For getting the current path
 import Link from "next/link";
-import Authorization from "./Authorization";
+import { usePathname } from "next/navigation"; 
+import { useUser } from "@auth0/nextjs-auth0/client";
+import { ExtendedUserProfile } from "@/types/auth0";
 
 interface NavigationItem {
   name: string;
@@ -11,10 +12,10 @@ interface NavigationItem {
 }
 
 const navigation: NavigationItem[] = [
-  { name: "My Activity", href: "/dashboard", admin: false },
-  { name: "Rankings", href: "/ranking", admin: false },
-  { name: "Cities", href: "/cities", admin: false },
-  { name: "Admin", href: "/admin", admin: true },
+  { name: "My Activity", href: "/athlete/dashboard", admin: false },
+  { name: "Rankings",    href: "/athlete/ranking",   admin: false },
+  { name: "Cities",      href: "/athlete/cities",    admin: false },
+  { name: "Admin",       href: "/admin",             admin: true  },
 ];
 
 function classNames(...classes: string[]) {
@@ -22,23 +23,22 @@ function classNames(...classes: string[]) {
 }
 
 export default function Page() {
-
-  const pathname = usePathname(); 
+  const pathname = usePathname();
+  const { user } = useUser() as { user: ExtendedUserProfile };
 
   return (
-    <Authorization>
-      {(user) => (
+    <>
+      {user && (
         <div className="h-28 pt-10 bg-gray-100 shadow-md">
           <header>
             <div className="flex mx-auto max-w-7xl pb-4 px-4 sm:px-6 lg:px-8 gap-x-10">
               <div className="flex gap-x-10 overflow-x-auto whitespace-nowrap pr-4 scrollbar-hidden">
                 {navigation.map((item) => {
                   // Show admin links only if the user has the "admin" role
-                  if (item.admin && !user?.["https://run.shawsoft.io/roles"]?.includes("admin")) {
+                  if (item.admin && !user["https://run.shawsoft.io/roles"]?.includes("admin")) {
                     return null;
                   }
-
-                  // Determine if this menu item is "current" based on the pathname
+                  
                   const isCurrent = pathname === item.href;
 
                   return (
@@ -62,6 +62,6 @@ export default function Page() {
           </header>
         </div>
       )}
-    </Authorization>
+    </>
   );
 }

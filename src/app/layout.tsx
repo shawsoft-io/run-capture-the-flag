@@ -17,7 +17,7 @@ export default async function RootLayout({ children }: Readonly<{children: React
       >
         <UserProvider>
           <Header/>
-          <div className=" grow bg-blue-100/20">
+          <div className="grow bg-blue-100/20">
             {children}
           </div>
           <Footer/>

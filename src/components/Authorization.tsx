@@ -1,9 +1,9 @@
 'use client';
-
 import React, { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useUser } from '@auth0/nextjs-auth0/client';
 import type { ExtendedUserProfile } from '../app/types/auth0';
+import Loading from '../components/Loading'
 
 interface ExtendedUserProps {
   children: (user: ExtendedUserProfile) => React.ReactNode;
@@ -15,7 +15,6 @@ interface ExtendedUserProps {
 
 const Authorization: React.FC<ExtendedUserProps> = ({
   children,
-  loginPath = '/login',
   unauthorizedPath = '/unauthorized',
   pendingVerificationPath = '/pending-verification',
   requiredRoles = [],
@@ -26,10 +25,7 @@ const Authorization: React.FC<ExtendedUserProps> = ({
   useEffect(() => {
     if (isLoading) return; // Wait for loading to finish
 
-    if (!user) {
-      router.push(loginPath);
-      return;
-    }
+  
 
     const userRoles = (user as ExtendedUserProfile)?.["https://run.shawsoft.io/roles"] || [];
 
@@ -41,20 +37,19 @@ const Authorization: React.FC<ExtendedUserProps> = ({
     if (requiredRoles.length > 0 && !requiredRoles.some((role) => userRoles.includes(role))) {
       router.push(unauthorizedPath);
     }
-  }, [isLoading, user, router, loginPath, unauthorizedPath, pendingVerificationPath, requiredRoles]);
+  }, [isLoading, user, router, unauthorizedPath, pendingVerificationPath, requiredRoles]);
 
-  if (isLoading) return <p>Loading...</p>;
+  if (isLoading) return <Loading/>;
   if (error) {
     console.error("Authorization Error:", error);
     return <p>Error: {error.message}</p>;
   }
 
-  if (!user) return <p>Redirecting to login...</p>;
 
   const userRoles = (user as ExtendedUserProfile)?.["https://run.shawsoft.io/roles"] || [];
   const hasRequiredRole = requiredRoles.length === 0 || requiredRoles.some((role) => userRoles.includes(role));
 
-  if (!hasRequiredRole) return <p>You do not have permission to access this page.</p>;
+  if (!hasRequiredRole) return null;
 
   return <>{children(user as ExtendedUserProfile)}</>;
 };

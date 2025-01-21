@@ -1,5 +1,5 @@
 'use client'
-import Authorization from '../../components/Authorization';
+import Authorization from '../../../components/Authorization';
 
 export default  function Page() {
   

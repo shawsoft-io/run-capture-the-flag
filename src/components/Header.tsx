@@ -16,7 +16,7 @@ export default function Header() {
   const { user } = useUser();
 
   return (          
-      <div className='fixed min-w-full z-[999]'>
+      <div className='fixed w-full z-[999]'>
 
         {/* MAIN BLACK HEADER */}
         <Disclosure as="nav" className="bg-dark h-20">
@@ -88,7 +88,11 @@ export default function Header() {
         </Disclosure>
      
         {/* LOGGED IN CONTEXT MENU */}
-        <Navigation/>
+
+
+          <Navigation/>
+
+
 
       </div>
 

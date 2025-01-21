@@ -3,21 +3,24 @@ import { useUser } from '@auth0/nextjs-auth0/client';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 
+
 const RedirectComponent = () => {
-  const { user, isLoading } = useUser();
-  const router = useRouter();
 
-  useEffect(() => {
-    if (isLoading) return; 
+ const router = useRouter();
+ const {user, isLoading} = useUser();
 
-    if (user) {
-      router.push('/dashboard');
-    } else {
-      router.push('/login');
+  useEffect(() => {  
+
+    if (isLoading) return;
+
+    if (!user) {
+      router.push("/login");
     }
-  }, [user, isLoading, router]);
 
-  return null; 
+    router.push('/athlete/dashboard')
+  
+  }, [user, router]);
+
 };
 
 export default RedirectComponent;
