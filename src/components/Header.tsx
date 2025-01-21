@@ -9,8 +9,6 @@ const userNavigation = [
   { name: 'Sign out',     href: '/api/auth/logout' },
 ]
 
-
-
 export default function Header() {
 
   const { user } = useUser();
