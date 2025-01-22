@@ -2,7 +2,7 @@
 
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { useUser } from "@auth0/nextjs-auth0/client";
+import { useUser } from "@auth0/nextjs-auth0";
 import { Typewriter } from "react-simple-typewriter";
 
 export default function LoginPage() {
@@ -16,7 +16,7 @@ export default function LoginPage() {
   }, [user, router]);
 
   const handleLogin = () => {
-    router.push('/api/auth/login');
+    router.push('/auth/login');
   };
 
   return (

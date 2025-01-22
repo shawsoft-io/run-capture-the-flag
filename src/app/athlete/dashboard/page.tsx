@@ -1,21 +1,21 @@
 'use client'
-import Authorization from '../../../components/Authorization';
+
+import { useUser } from "@auth0/nextjs-auth0";
+
+
+
 
 export default  function Page() {
   
-
+  const {user}  = useUser();
 
   return (
 
-    <Authorization requiredRoles={['admin', 'athelete', 'APP_RUN_ADMIN']}>
-      {(user) => (
-<>
-        <div className="mt-40"></div>
-        <h1>Hello {user.given_name},</h1>
 
-</>
-      )}
-    </Authorization>
+
+        <h1 className="mt-[500px] text-3xl black">Dashboard - Hello {user?.email}</h1>
+
+
   
   
   );

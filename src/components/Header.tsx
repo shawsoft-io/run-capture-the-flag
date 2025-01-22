@@ -1,17 +1,31 @@
 'use client'
-import { Disclosure, Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react'
-import Link from 'next/link'
-import Navigation from './Navigation'
-import { useUser } from '@auth0/nextjs-auth0/client';
 
-const userNavigation = [
+
+import Link from 'next/link'
+import Navigation from '../components/Navigation'
+import { 
+  Disclosure, 
+  Menu, 
+  MenuButton, 
+  MenuItem, 
+  MenuItems 
+} from '@headlessui/react'
+import { useUser } from '@auth0/nextjs-auth0';
+import { ExtendedUserProfile } from '@/types/auth0';
+
+interface NavigationItem {
+  name: string;
+  href: string;
+}
+
+const userNavigation : NavigationItem[] = [
   { name: 'View Profile', href: '/athlete/profile' },
   { name: 'Sign out',     href: '/api/auth/logout' },
 ]
 
 export default function Header() {
 
-  const { user } = useUser();
+  const user = useUser().user as ExtendedUserProfile;
 
   return (          
       <div className='fixed w-full z-[999]'>
@@ -87,8 +101,8 @@ export default function Header() {
      
         {/* LOGGED IN CONTEXT MENU */}
 
+        <Navigation user={user}/>
 
-          <Navigation/>
 
 
 

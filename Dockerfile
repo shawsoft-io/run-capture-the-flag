@@ -22,8 +22,8 @@ COPY . .
 RUN --mount=type=secret,id=auth0_secret \
     --mount=type=secret,id=auth0_client_id \
     --mount=type=secret,id=auth0_client_secret \
-    --mount=type=secret,id=auth0_base_url \
-    --mount=type=secret,id=auth0_issuer_base_url \
+    --mount=type=secret,id=auth0_domain \
+    --mount=type=secret,id=app_base_url \
     --mount=type=secret,id=strava_verify_token \
     --mount=type=secret,id=mongodb_uri \
     --mount=type=secret,id=mongodb_name \
@@ -33,8 +33,8 @@ RUN --mount=type=secret,id=auth0_secret \
     export AUTH0_SECRET=$(cat /run/secrets/auth0_secret) && \
     export AUTH0_CLIENT_ID=$(cat /run/secrets/auth0_client_id) && \
     export AUTH0_CLIENT_SECRET=$(cat /run/secrets/auth0_client_secret) && \
-    export AUTH0_BASE_URL=$(cat /run/secrets/auth0_base_url) && \
-    export AUTH0_ISSUER_BASE_URL=$(cat /run/secrets/auth0_issuer_base_url) && \
+    export APP_BASE_URL=$(cat /run/secrets/app_base_url) && \
+    export AUTH0_DOMAIN=$(cat /run/secrets/auth0_domain) && \
     export STRAVA_VERIFY_TOKEN=$(cat /run/secrets/strava_verify_token) && \
     export MONGODB_URI=$(cat /run/secrets/mongodb_uri) && \
     export MONGODB_NAME=$(cat /run/secrets/mongodb_name) && \

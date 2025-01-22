@@ -1,7 +1,7 @@
 'use client'
 
 import { ExtendedUserProfile } from "@/types/auth0";
-import { useUser } from "@auth0/nextjs-auth0/client"
+import { useUser } from "@auth0/nextjs-auth0"
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
@@ -16,17 +16,17 @@ export default function Page()
     useEffect(() => {  
       if (isLoading) return; 
 
-      if (!user) {
-        router.push("/login");
-      }
-    }, [user, router]);
+   
+    }, [user, router, isLoading]);
 
     const handleLogin = () => {
       router.push('/api/auth/login');
     };
 
     const viewActivity = () => {
-      router.push('/dashboard');
+      router.push('/athlete/dashboard');
+
+
     };
 
     return(
@@ -51,11 +51,11 @@ export default function Page()
 
                 <div className="mt-10 flex justify-center cursor-pointer">
                 {userRoles?.length > 0 ? (
-                    <Link href="#" onClick={viewActivity} className="text-sm/7 font-semibold text-white">
+                    <Link href="/athlete/dashboard" className="text-sm/7 font-semibold text-white">
                         <span aria-hidden="true">&larr;</span> View activity
                     </Link>
                 ) : (
-                    <Link href="#" onClick={handleLogin} className="text-sm/7 font-semibold text-white">
+                    <Link href="/login" className="text-sm/7 font-semibold text-white">
                         <span aria-hidden="true">&larr;</span> Back to login
                     </Link>
                 )}

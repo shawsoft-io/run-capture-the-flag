@@ -15,6 +15,7 @@ const eslintConfig = [
     files: ["**/*.{js,jsx,ts,tsx}"], // Apply these rules to all JS/TS files
     rules: {
       "jsx-a11y/alt-text": "off", // Disable the alt-text rule
+      "@next/next/no-img-element": "off",
     },
   },
 ];

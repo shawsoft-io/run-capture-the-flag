@@ -1,12 +1,15 @@
 'use client'
-import LogoutButton from '../../../components/LogoutButton'
+
 import Authorization from '../../../components/Authorization'
 
 export default function Page() {
   
   return (
+
+   
     <Authorization>
-      {(user) => 
+      {(user) => (
+      
     <div className="flex mt-48 lg:flex-row flex-col mx-auto max-w-7xl pb-4 px-4 sm:px-6 lg:px-8 gap-x-10 lg:items-start items-center py-12 space-y-5 lg:space-y-0">
       {/* Left Column */}
       <div className="flex flex-col lg:w-1/3 w-full max-w-lg space-y-5">
@@ -14,6 +17,7 @@ export default function Page() {
         <div className="bg-white shadow-md rounded-lg p-6 w-full">
           <h1 className="text-2xl font-bold text-center mb-4">Profile</h1>
           <div className="flex flex-col items-center space-y-4">
+            
             {user?.picture ? (
               <img
                 src={user?.picture}
@@ -25,7 +29,8 @@ export default function Page() {
                 ??
               </span>
             )}
- 
+            
+
             <table className="min-w-full divide-y divide-gray-300">
               <tbody className="divide-y divide-gray-200">
                 <tr>
@@ -33,7 +38,9 @@ export default function Page() {
                     {user?.name || "N/A"}</td>
                   <td>
                     <span className="inline-flex items-center rounded-md bg-pink-400/10 px-4 py-1 text-xs font-medium text-pink-400 ring-1 ring-inset ring-pink-400/20">
-                      {user?.['https://run.shawsoft.io/roles'] || "n/a"}
+                      {user?.['https://run.shawsoft.io/roles'] || "n/a"
+                      }
+        
                     </span>
                   </td>
                 </tr>
@@ -66,7 +73,7 @@ export default function Page() {
               >
                 Delete Account
               </button>
-              <LogoutButton/>
+              {/*<LogoutButton/>*/}
             </div>
           </div>
         </div>
@@ -80,7 +87,7 @@ export default function Page() {
         </div>
       </div>
     </div>
-    }
-    </Authorization>
+              )}
+    </Authorization>        
   );
 }
