@@ -49,7 +49,7 @@ const Authorization: React.FC<ExtendedUserProps> = ({
 
   if (!isVerified) {
     // Prevent rendering children until verification is complete
-    return null;
+    router.push(unauthorizedPath)
   }
 
   return <>{children(user as ExtendedUserProfile)}</>;
