@@ -30,7 +30,7 @@ export default function Page()
     };
 
     return(
-        <main className="h-full grow mt-40 bg-hotpink">
+        <main className="h-full grow lg:pt-40 pt-16 bg-hotpink">
 
             <div className="mx-auto max-w-7xl px-6 py-32 text-center sm:py-40 lg:px-8">
                 <p className="text-base/8 font-semibold text-white">

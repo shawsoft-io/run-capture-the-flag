@@ -34,11 +34,12 @@ const Navigation: React.FC<NavigationProps> = React.memo(({ user }) => {
   const roles = useMemo(() => user?.['https://run.shawsoft.io/roles'] || [], [user]);
 
   // Defensive check for undefined user
-  if (!user) {
+  if (roles?.length == 0) {
     return null;
   }
 
   return (
+
     <div className="h-28 pt-10 bg-gray-100 shadow-md">
       <header>
         <div className="flex mx-auto max-w-7xl pb-4 px-4 sm:px-6 lg:px-8 gap-x-10">
@@ -71,6 +72,7 @@ const Navigation: React.FC<NavigationProps> = React.memo(({ user }) => {
         </div>
       </header>
     </div>
+
   );
 });
 

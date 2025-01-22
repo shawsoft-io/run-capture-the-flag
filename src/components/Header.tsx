@@ -20,7 +20,7 @@ interface NavigationItem {
 
 const userNavigation : NavigationItem[] = [
   { name: 'View Profile', href: '/athlete/profile' },
-  { name: 'Sign out',     href: '/api/auth/logout' },
+  { name: 'Sign out',     href: '/auth/logout' },
 ]
 
 export default function Header() {
