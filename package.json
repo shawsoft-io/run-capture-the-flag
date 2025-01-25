@@ -8,7 +8,8 @@
     "start": "next start",
     "start:webjob": "node dist/webjob.js",
     "lint": "next lint",
-    "clean": "rm -rf .next dist node_modules"
+    "clean": "rm -rf .next dist node_modules",
+    "postinstall": "node path-auth0.js"
   },
   "dependencies": {
     "@auth0/nextjs-auth0": "^4.0.0-beta.14",

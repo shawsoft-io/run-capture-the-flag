@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import Authorization from '../../components/Authorization';
+import Loading from '../../components/Loading';
 
 interface Auth0User {
   user_id: string;
@@ -50,7 +51,7 @@ const UsersPage = () => {
     fetchUsers();
   }, []);
 
-  if (loading) return <div>Loading...</div>;
+  if (loading) return <Loading/>;
   if (error) return <div>Error: {error}</div>;
 
   return (
