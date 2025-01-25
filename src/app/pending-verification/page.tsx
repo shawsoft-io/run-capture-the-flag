@@ -16,18 +16,8 @@ export default function Page()
     useEffect(() => {  
       if (isLoading) return; 
 
-   
     }, [user, router, isLoading]);
 
-    const handleLogin = () => {
-      router.push('/api/auth/login');
-    };
-
-    const viewActivity = () => {
-      router.push('/athlete/dashboard');
-
-
-    };
 
     return(
         <main className="h-full grow lg:pt-40 pt-16 bg-hotpink">

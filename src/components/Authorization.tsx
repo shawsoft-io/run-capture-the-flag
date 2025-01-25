@@ -31,13 +31,13 @@ const Authorization: React.FC<ExtendedUserProps> = ({
     const userRoles = (user as ExtendedUserProfile)?.['https://run.shawsoft.io/roles'] || [];
     if (userRoles.length === 0) {
       console.warn('User has no roles. Redirecting to pending verification.');
-      router.push(pendingVerificationPath);
+      //router.push(pendingVerificationPath);
       return;
     }
   
     if (requiredRoles.length > 0 && !requiredRoles.some((role) => userRoles.includes(role))) {
       console.warn('User lacks required roles. Redirecting to unauthorized.');
-      router.push(unauthorizedPath);
+      //router.push(unauthorizedPath);
       return;
     }
   
@@ -49,7 +49,7 @@ const Authorization: React.FC<ExtendedUserProps> = ({
 
   if (!isVerified) {
     // Prevent rendering children until verification is complete
-    router.push(unauthorizedPath)
+   // router.push(unauthorizedPath)
   }
 
   return <>{children(user as ExtendedUserProfile)}</>;

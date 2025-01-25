@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useMemo } from 'react';
+import React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import type { ExtendedUserProfile } from '../app/types/auth0';
@@ -31,7 +31,7 @@ const Navigation: React.FC<NavigationProps> = React.memo(({ user }) => {
   const pathname = usePathname();
 
   // Cache user roles to avoid repeated lookups
-  const roles = useMemo(() => user?.['https://run.shawsoft.io/roles'] || [], [user]);
+  const roles = user?.['https://run.shawsoft.io/roles'] || [];
 
   // Defensive check for undefined user
   if (roles?.length == 0) {
