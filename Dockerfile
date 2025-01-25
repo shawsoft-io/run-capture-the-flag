@@ -9,7 +9,7 @@ RUN apk add --no-cache libc6-compat
 WORKDIR /app
 
 # Install dependencies
-COPY package.json package-lock.json* ./
+COPY package.json package-lock.json* path-auth0.js ./
 RUN npm ci --only=production
 
 # Rebuild the source code only when needed
