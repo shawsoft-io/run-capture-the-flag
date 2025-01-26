@@ -22,15 +22,16 @@ export async function GET(req: NextRequest) {
 export async function POST(req: NextRequest) {
   try {
     const message = await req.json();
-
     
     if (!message) {
       return NextResponse.json({ error: 'Invalid event' }, { status: 400 });
     }
 
     await azureQueue.ensureQueueExists();
+    await azureQueue.sendMessage(message);
 
     return NextResponse.json({ success: true }, { status: 200 });
+
   } catch (error) {
     console.error('Error processing Strava webhook:', error);
     return NextResponse.json({ error: 'Failed to process webhook' }, { status: 500 });
