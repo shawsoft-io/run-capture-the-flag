@@ -17,7 +17,7 @@ interface UserWithRoles extends Auth0User {
 }
 
 async function getManagementApiToken(): Promise<string> {
-  const response = await fetch(`https://dev-gkxikxpelngom2uq.us.auth0.com/oauth/token`, {
+  const response = await fetch(`https://auth.shawsoft.io/oauth/token`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
