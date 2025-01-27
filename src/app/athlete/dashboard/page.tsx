@@ -3,23 +3,12 @@ import { useInfiniteQuery } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
 import { ActivityCard } from '../../../components/ActivityCard';
-import Greeting from '../../../components/Greeting'
+import Greeting from '../../../components/Greeting';
 import Loading from '../../../components/Loading';
+import { Activity } from '@/types';
+import { formatDate } from '../../../lib/dateUtil'
 
-interface Activity {
-  id: string;
-  athleteId: string;
-  dateTimeLocal: string;
-  distance: number;
-  duration: number;
-  city: string;
-  country: string;
-  map_url: string;
-  fastest1KmTime: number;
-  fastest5KmTime: number;
-  pace: string;
-  activityPoints: number;
-}
+
 
 export default function ActivitiesPage() {
   const { ref, inView } = useInView();
@@ -27,7 +16,7 @@ export default function ActivitiesPage() {
   const [month, setMonth] = useState('');
   const [visibility, setVisibility] = useState('everyone');
 
-  const fetchActivities = async ({ pageParam = 1 }: { pageParam?: number }) => {
+  const fetchActivities = async ({ pageParam = 1 }: { pageParam?: number }) : Promise<Activity[]> => {
     const response = await fetch(
       `/api/run/activities?month=${month}&visibility=${visibility}&page=${pageParam}`
     );
@@ -70,17 +59,22 @@ export default function ActivitiesPage() {
 
   const activities = data?.pages.flat() || [];
 
+  // Group activities by date
+  const groupedActivities = activities.reduce((acc, activity) => {
+    const date = new Date(activity.date_time_local).toLocaleDateString();
+    if (!acc[date]) {
+      acc[date] = [];
+    }
+    acc[date].push(activity);
+    return acc;
+  }, {} as Record<string, Activity[]>);
+
   return (
     <div className="mt-60 max-w-7xl mx-auto px-4 lg:px-8">
- {/*
-      <Greeting name={"Connor"}/>
-      Main Layout */}
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
         {/* Filters Section */}
         <div className="lg:col-span-1 space-y-4">
           <h2 className="text-xl font-bold">Filters</h2>
-         
-         
           {/* Month Filter */}
           <div className="relative">
             <select
@@ -142,9 +136,16 @@ export default function ActivitiesPage() {
         </div>
 
         {/* Activity Feed Section */}
-        <div className="lg:col-span-3 space-y-4">
-          {activities.map((activity) => (
-            <ActivityCard key={activity.id} activity={activity} />
+        <div className="lg:col-span-3 space-y-6">
+          {Object.entries(groupedActivities).map(([date, activities]) => (
+            <div key={date} className='pb-10'>
+              <h3 className="text-2xl font-bold mb-4">{formatDate(date)}</h3>
+              <div className="space-y-4">
+                {activities.map((activity) => (
+                  <ActivityCard key={activity.id} activity={activity} />
+                ))}
+              </div>
+            </div>
           ))}
 
           {/* Infinite Scroll Trigger */}

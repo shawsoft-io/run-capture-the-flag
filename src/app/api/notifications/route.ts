@@ -27,9 +27,9 @@ export async function POST(req: NextRequest) {
 
     const queueLib = new QueueLib(); // Default queue name from .env
     await queueLib.ensureQueueExists();
-    await queueLib.sendMessage(message);
+    const id = await queueLib.sendMessage(message);
 
-    return NextResponse.json({ success: true }, { status: 200 });
+    return NextResponse.json({ success: true, id: {id} }, { status: 200 });
 
   } catch (error) {
     console.error('Error processing Strava webhook:', error);
