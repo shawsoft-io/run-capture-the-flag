@@ -149,7 +149,7 @@ export default function ActivitiesPage() {
                <div
                  key={activity.id}
                  className={`border-gray-200 ${
-                   index < activities.length - 1 ? 'border-b border-gray-600' : ''
+                   index < activities.length - 1 ? 'border-b border-gray-200' : ''
                  }`}
                >
                  <ActivityCard activity={activity} />
@@ -161,7 +161,7 @@ export default function ActivitiesPage() {
 
           {/* Infinite Scroll Trigger */}
           <div ref={ref} className="h-10"></div>
-          {isFetchingNextPage && <h3>Loading...</h3>}
+          {isFetchingNextPage && <Loading/>}
         </div>
       </div>
     </div>
