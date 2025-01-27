@@ -6,11 +6,12 @@ import { auth0 } from '../../../../lib/auth0';
 export async function GET() {
   try {
     const user = await auth0.getSession();
-    const accessToken = typeof user?.user?.["https://run.shawsoft.io/accessToken"] === "string"
+    const accessToken = "8eefeb940de9d8dd6b03276114ec7ee4c6a87ccb"
+    
+    /*typeof user?.user?.["https://run.shawsoft.io/accessToken"] === "string"
       ? user?.user?.["https://run.shawsoft.io/accessToken"]
       : null;
-
-    console.log(`Token ${accessToken}`);
+*/
 
     if (!accessToken) {
       return NextResponse.json({ error: 'Strava access token not configured' }, { status: 500 });

@@ -1,8 +1,8 @@
 "use client"
 
 import React, { useEffect, useState } from 'react';
-import Authorization from '../../components/Authorization';
-import Loading from '../../components/Loading';
+import Authorization from '../../../components/Authorization';
+import Loading from '../../../components/Loading';
 
 interface Auth0User {
   user_id: string;

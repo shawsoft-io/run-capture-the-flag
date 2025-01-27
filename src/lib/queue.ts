@@ -1,14 +1,25 @@
 import { QueueClient, QueueSendMessageResponse } from '@azure/storage-queue';
+import dotenv from 'dotenv';
 
-class AzureQueueManager {
+// Load environment variables from .env
+dotenv.config();
+
+export class QueueLib {
   private queueClient: QueueClient;
 
-  constructor(connectionString: string, queueName: string) {
-    if (!connectionString || !queueName) {
-      throw new Error('Azure Storage connection string and queue name must be provided.');
+  constructor(queueName?: string) {
+    const connectionString = process.env.AZURE_STORAGE_CONNECTION_STRING;
+    const resolvedQueueName = queueName || process.env.QUEUE_NAME;
+
+    if (!connectionString) {
+      throw new Error('Azure Storage connection string must be set in the environment.');
     }
 
-    this.queueClient = new QueueClient(connectionString, queueName);
+    if (!resolvedQueueName) {
+      throw new Error('Queue name must be set in the environment or provided.');
+    }
+
+    this.queueClient = new QueueClient(connectionString, resolvedQueueName);
   }
 
   /**
@@ -18,13 +29,15 @@ class AzureQueueManager {
     try {
       const createQueueResponse = await this.queueClient.createIfNotExists();
       if (createQueueResponse.succeeded) {
-        console.log(`Queue '${this.queueClient.name}' created.`);
+        console.log(`Queue '${this.queueClient.name}' created successfully.`);
+      } else {
+        console.log(`Queue '${this.queueClient.name}' already exists.`);
       }
     } catch (error: unknown) {
       const errorMessage =
-        error instanceof Error ? error.message : 'Unknown error occurred while ensuring queue existence.';
+        error instanceof Error ? error.message : 'An unknown error occurred while ensuring the queue exists.';
       console.error(`Error ensuring queue existence: ${errorMessage}`);
-      throw new Error('Failed to ensure queue existence.');
+      throw new Error('Failed to ensure the queue exists.');
     }
   }
 
@@ -39,18 +52,15 @@ class AzureQueueManager {
     }
 
     try {
-      // Serialize the message as JSON and encode it in base64
       const messageText = Buffer.from(JSON.stringify(message)).toString('base64');
       const response = await this.queueClient.sendMessage(messageText);
-      console.log('Message added to the queue:', response.messageId);
+      console.log(`Message added to queue '${this.queueClient.name}':`, response.messageId);
       return response;
     } catch (error: unknown) {
       const errorMessage =
-        error instanceof Error ? error.message : 'Unknown error occurred while sending message.';
+        error instanceof Error ? error.message : 'An unknown error occurred while sending the message.';
       console.error(`Error sending message to queue: ${errorMessage}`);
-      throw new Error('Failed to send message to the queue.');
+      throw new Error('Failed to send the message to the queue.');
     }
   }
 }
-
-export default AzureQueueManager;

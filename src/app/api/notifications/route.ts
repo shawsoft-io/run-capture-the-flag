@@ -1,10 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
-import AzureQueueManager from '../../../lib/queue';
+import { QueueLib } from '../../../lib/queue';
 
-const connectionString = process.env.AZURE_STORAGE_CONNECTION_STRING || '';
-const queueName = process.env.QUEUE_NAME || '';
 
-const azureQueue = new AzureQueueManager(connectionString, queueName);
+
 const STRAVA_VERIFY_TOKEN = process.env.STRAVA_VERIFY_TOKEN; 
 
 export async function GET(req: NextRequest) {
@@ -27,8 +25,9 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Invalid event' }, { status: 400 });
     }
 
-    await azureQueue.ensureQueueExists();
-    await azureQueue.sendMessage(message);
+    const queueLib = new QueueLib(); // Default queue name from .env
+    await queueLib.ensureQueueExists();
+    await queueLib.sendMessage(message);
 
     return NextResponse.json({ success: true }, { status: 200 });
 
