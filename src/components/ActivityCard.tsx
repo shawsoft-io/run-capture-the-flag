@@ -34,23 +34,36 @@ export const ActivityCard: React.FC<ActivityCardProps> = ({ activity }) => {
 
       {/* Right Column: Stats */}
       <div className="w-2/3 p-4">
-        <h2 className="font-extrabold text-5xl">{(activity.distance / 1000).toFixed(2)} km</h2>
-        <h3 className="text-md font-semibold mb-2">
+
+        <div className="flex items-end">
+            <h2 className="font-extrabold text-5xl">{(activity.distance / 1000).toFixed(2)}</h2>
+            <span className="text-md self-end ml-2 text-gray-500">kilometers</span>
+        </div>
+        <h3 className="text-md mb-2 text-gray-700">
           {activity.city ? `${activity.city}, ${activity.country}` : "Treadmill"}
         </h3>
-        <p className="text-sm text-gray-600 mb-4">
-          {new Date(activity.date_time_local).toLocaleTimeString()}
-        </p>
-        <div className="grid grid-cols-2 gap-y-2 text-sm text-gray-800">
-          <div className="font-semibold">Duration:</div>
-          <div>
-            {Math.floor(activity.duration / 60)}m {activity.duration % 60}s
-          </div>
-          <div className="font-semibold">Pace:</div>
-          <div>{activity.pace}</div>
-          <div className="font-semibold">Activity Points:</div>
-          <div>{activity.activity_points}</div>
-        </div>
+
+        <div className="grid grid-cols-3 gap-x-4 gap-y-6 text-left text-gray-800 pt-12">
+  {/* Duration */}
+  <div>
+    <div className="text-2xl font-bold">
+      {Math.floor(activity.duration / 60)}m {activity.duration % 60}s
+    </div>
+    <div className="text-xs font-thin text-gray-600">Duration</div>
+  </div>
+
+  {/* Pace */}
+  <div>
+    <div className="text-2xl font-bold">{activity.pace}</div>
+    <div className="text-xs font-thin text-gray-600">Pace</div>
+  </div>
+
+  {/* Activity Points */}
+  <div>
+    <div className="text-2xl font-bold">{activity.activity_points}</div>
+    <div className="text-xs font-thin text-gray-600">Activity Points</div>
+  </div>
+</div>
         <div className="flex gap-x-5 pt-4">
             {activity.claimed && 
                 <div className='flex gap-x-2'>
