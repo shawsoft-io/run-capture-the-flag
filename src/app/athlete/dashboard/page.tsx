@@ -136,16 +136,27 @@ export default function ActivitiesPage() {
         </div>
 
         {/* Activity Feed Section */}
-        <div className="lg:col-span-3 space-y-6">
+        <div className="lg:col-span-3 space-y-4">
+
+
+          
           {Object.entries(groupedActivities).map(([date, activities]) => (
-            <div key={date} className='pb-10'>
-              <h3 className="text-2xl font-bold mb-4">{formatDate(date)}</h3>
-              <div className="space-y-4">
-                {activities.map((activity) => (
-                  <ActivityCard key={activity.id} activity={activity} />
-                ))}
-              </div>
-            </div>
+           <div className='pb-10'>
+
+           <h3 className="text-2xl font-bold">{formatDate(date)}</h3>
+           <div className="bg-white shadow-sm ring-1 ring-gray-900/5  rounded-xl md:col-span-2 overflow-hidden">
+             {activities.map((activity, index) => (
+               <div
+                 key={activity.id}
+                 className={`border-gray-200 ${
+                   index < activities.length - 1 ? 'border-b border-gray-600' : ''
+                 }`}
+               >
+                 <ActivityCard activity={activity} />
+               </div>
+             ))}
+           </div>
+         </div>
           ))}
 
           {/* Infinite Scroll Trigger */}

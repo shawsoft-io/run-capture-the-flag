@@ -20,14 +20,14 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="flex flex-col min-h-screen justify-center items-center bg-hotpink py-12 px-4 sm:px-6 lg:px-8">
+    <div className="flex flex-col min-h-screen justify-center items-center bg-hotpink py-12 px-4 px-8 mt-20">
       <div className="text-center">
         <img
           alt="Run 3D Logo"
           src="/run-3d.png"
           className="mx-auto h-[260px] w-auto"
         />
-        <h2 className="mt-10 text-4xl font-bold tracking-tight text-white">
+          <div className="h-[150px] mt-10 text-4xl font-bold tracking-tight text-white">
         <Typewriter
           words={
             [
@@ -46,7 +46,7 @@ export default function LoginPage() {
           deleteSpeed={0}
           delaySpeed={2000}
         />
-        </h2>
+        </div>
       </div>
 
       <div className="mt-8 sm:w-full sm:max-w-md">
