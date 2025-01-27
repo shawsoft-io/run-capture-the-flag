@@ -25,11 +25,11 @@ export const ActivityCard: React.FC<ActivityCardProps> = ({ activity }) => {
   return (
     <div className="flex border-l-[12px] border-gray-700 bg-white shadow-md rounded-lg overflow-hidden">
       {/* Left Column: Picture */}
-      <div className="w-1/3 flex items-center justify-center bg-gray-100">
+      <div className="w-1/3 flex items-center justify-center relative bg-gray-100">
         <img
           src={activity.map_url || "/logo.png"}
           alt={`${activity.city} Activity`}
-          className={`object-cover ${!activity.map_url ? "invert p-10" : ""}`}
+          className={`object-cover ${!activity.map_url ? "invert p-10 opacity-40" : "h-full w-full"}`}
         />
       </div>
 

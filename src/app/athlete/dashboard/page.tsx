@@ -3,6 +3,7 @@ import { useInfiniteQuery } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
 import { ActivityCard } from '../../../components/ActivityCard';
+import Greeting from '../../../components/Greeting'
 import Loading from '../../../components/Loading';
 
 interface Activity {
@@ -70,8 +71,10 @@ export default function ActivitiesPage() {
   const activities = data?.pages.flat() || [];
 
   return (
-    <div className="mt-[300px] max-w-7xl mx-auto px-4 lg:px-8">
-      {/* Main Layout */}
+    <div className="mt-60 max-w-7xl mx-auto px-4 lg:px-8">
+ {/*
+      <Greeting name={"Connor"}/>
+      Main Layout */}
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
         {/* Filters Section */}
         <div className="lg:col-span-1 space-y-4">

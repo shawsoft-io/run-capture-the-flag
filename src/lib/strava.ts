@@ -37,7 +37,7 @@ export async function getLastFiveActivities(accessToken: string): Promise<Strava
       const data = await response.json();
 
       if (data.length === 0) {
-        break; // Exit loop if no more activities
+        break; 
       }
 
       activities.push(...data);
