@@ -7,7 +7,7 @@ import Greeting from '../../../components/Greeting';
 import Loading from '../../../components/Loading';
 import { Activity } from '@/types';
 import { formatDate } from '../../../lib/dateUtil'
-
+import Authorize from '../../../components/Authorization'
 
 
 export default function ActivitiesPage() {
@@ -70,6 +70,8 @@ export default function ActivitiesPage() {
   }, {} as Record<string, Activity[]>);
 
   return (
+    <Authorize>
+      {(user) =>
     <div className="mt-60 max-w-7xl mx-auto px-4 lg:px-8">
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
         {/* Filters Section */}
@@ -164,6 +166,9 @@ export default function ActivitiesPage() {
           {isFetchingNextPage && <Loading/>}
         </div>
       </div>
-    </div>
+    </div>  
+  }
+
+    </Authorize>
   );
 }

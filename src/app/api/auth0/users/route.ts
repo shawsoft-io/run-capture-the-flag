@@ -33,11 +33,12 @@ async function getManagementApiToken(): Promise<string> {
   }
 
   const { access_token } = await response.json();
+  console.log(`Access token: ${access_token}`)
   return access_token;
 }
 
 async function getUsers(accessToken: string): Promise<Auth0User[]> {
-  const response = await fetch(`https://dev-gkxikxpelngom2uq.us.auth0.com/api/v2/users`, {
+  const response = await fetch(`https://auth.shawsoft.io/api/v2/users`, {
     method: 'GET',
     headers: {
       Authorization: `Bearer ${accessToken}`,
@@ -45,6 +46,8 @@ async function getUsers(accessToken: string): Promise<Auth0User[]> {
   });
 
   if (!response.ok) {
+    const error = await response.json();
+    console.log(error);
     throw new Error('Failed to fetch users');
   }
 
@@ -52,7 +55,7 @@ async function getUsers(accessToken: string): Promise<Auth0User[]> {
 }
 
 async function getUserRoles(accessToken: string, userId: string): Promise<Auth0Role[]> {
-  const response = await fetch(`https://dev-gkxikxpelngom2uq.us.auth0.com/api/v2/users/${userId}/roles`, {
+  const response = await fetch(`https://auth.shawsoft.io/api/v2/users/${userId}/roles`, {
     method: 'GET',
     headers: {
       Authorization: `Bearer ${accessToken}`,

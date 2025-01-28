@@ -64,7 +64,7 @@ export const ActivityCard: React.FC<ActivityCardProps> = ({ activity }) => {
           </div>
         </div>
 
-        <div className="flex flex-wrap gap-3 pt-4">
+        <div className="flex flex-wrap gap-3 pt-4 border-tborder-[1px] border-gray-300 mt-8">
           {activity.claimed && (
             <div className="flex items-center gap-2">
               <img src="/medal.png" alt="City claimed" className="h-6 sm:h-8 w-auto" />
