@@ -3,6 +3,7 @@
 import { useQuery } from '@tanstack/react-query';
 import Loading from '../../../components/Loading';
 import Avatar from '../../../components/Avatar';
+import Authorization from '../../../components/Authorization';
 
 interface Athlete {
   athleteId: string;
@@ -34,8 +35,10 @@ export default function LeagueTablePage() {
   if (status === 'error') return <p className="text-red-500">Error: {(error as Error).message}</p>;
 
   return (
+    <Authorization>
+      {() => (
     <div className="max-w-7xl mx-auto mt-36 sm:mt-40 sm:mb-10">
-      <h1 className="text-2xl font-bold mb-6 text-center">🏆 Athlete League Table</h1>
+     
 
       <div className="overflow-x-auto shadow-lg rounded-lg">
       
@@ -169,5 +172,7 @@ export default function LeagueTablePage() {
 
       </div>
     </div>
+    )}
+    </Authorization>
   );
 }

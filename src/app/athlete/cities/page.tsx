@@ -2,6 +2,7 @@
 
 import { useQuery } from '@tanstack/react-query';
 import Loading from '../../../components/Loading';
+import Authorization from '../../../components/Authorization';
 
 interface ClaimedCity {
   city: string;
@@ -32,8 +33,10 @@ export default function ClaimedCitiesPage() {
   if (status === 'error') return <p className="text-red-500">Error: {(error as Error).message}</p>;
 
   return (
+    <Authorization>
+      {() => (
     <div className="max-w-7xl mx-auto mt-10 px-4 mt-48">
-      <h1 className="text-2xl font-bold mb-6 text-center">🌍 Cities Claimed</h1>
+
 
       {data?.claimedCities.map((country: ClaimedCountry) => (
         <div key={country._id} className="mb-8">
@@ -60,5 +63,7 @@ export default function ClaimedCitiesPage() {
         </div>
       ))}
     </div>
+      )}
+    </Authorization>
   );
 }
