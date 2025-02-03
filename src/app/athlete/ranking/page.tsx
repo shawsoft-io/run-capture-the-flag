@@ -34,7 +34,7 @@ export default function LeagueTablePage() {
   if (status === 'error') return <p className="text-red-500">Error: {(error as Error).message}</p>;
 
   return (
-    <div className="max-w-7xl mx-auto mt-40 mb-10">
+    <div className="max-w-7xl mx-auto mt-36 sm:mt-40 sm:mb-10">
       <h1 className="text-2xl font-bold mb-6 text-center">🏆 Athlete League Table</h1>
 
       <div className="overflow-x-auto shadow-lg rounded-lg">
@@ -49,7 +49,7 @@ export default function LeagueTablePage() {
             <th scope="col" className="px-3 py-3.5 text-center sm:text-left text-sm font-semibold text-gray-900">
               Athlete
             </th>
-            <th scope="col" className="hidden md:table-cell px-3 py-3.5 text-center text-sm font-semibold text-gray-900">
+            <th scope="col" className="px-3 py-3.5 text-center text-sm font-semibold text-gray-900">
               Activities
             </th>
             <th scope="col" className="px-3 py-3.5 text-center text-sm font-semibold text-gray-900">
@@ -86,7 +86,12 @@ export default function LeagueTablePage() {
               <tr key={athlete.athleteId} className="hover:bg-gray-50">
                 {/* Rank */}
                 <td className="whitespace-nowrap py-6 pl-4 pr-3 text-lg font-bold text-gray-900 sm:pl-6">
-                  {index + 1}
+                <span
+  className={`inline-flex items-center justify-center rounded-full w-10 h-10  text-lg font-bold 
+    ${index === 0 ? "bg-yellow-500" : index === 1 ? "bg-gray-300" : index === 2 ? "bg-orange-300" : "bg-white text-black border-4 border-black"}`}
+>
+  {index + 1}
+</span>
                 </td>
 
                 {/* Athlete Info - Small Screen (Stacked) */}
@@ -106,13 +111,17 @@ export default function LeagueTablePage() {
                 </td>
 
                 {/* Total Activities (hidden on small screens) */}
-                <td className="table-cel text-center  whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                <td className="table-cel text-center  whitespace-nowrap px-3 py-4 text-lg text-gray-500">
                   {athlete.totalActivities}
                 </td>
 
                 {/* Total Distance */}
-                <td className="px-3 py-4 text-sm text-gray-700 text-center font-semibold">
+                <td className="px-3 py-4 text-gray-700 text-lg text-center font-semibold">
                   {(athlete.totalDistance / 1000).toFixed(2)} km
+                  <span className="block text-gray-500 text-xs">
+                  {Math.floor(athlete.totalDuration / 3600)}h{" "}
+                  {Math.floor((athlete.totalDuration % 3600) / 60)}m
+                    </span>
                 </td>
 
                 {/* Total Time (hidden on small screens) */}
@@ -124,8 +133,8 @@ export default function LeagueTablePage() {
                 {/* Stacked Points (small screens only) */}
                 <td className="md:hidden px-3 py-4 text-sm text-gray-700 text-center font-bold">
                   <div>
-                    <span className="block text-gray-900 font-semibold">
-                      {totalPoints} Total
+                    <span className="block text-gray-900 text-lg font-semibold">
+                      {totalPoints}
                     </span>
                     <span className="block text-gray-500 text-xs">
                       {athlete.totalPoints} Act • {cityPoints} City • {athlete.pacePoints || 0} Pace

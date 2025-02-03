@@ -19,7 +19,6 @@ const navigation: NavigationItem[] = [
   { name: 'Activity', href: '/athlete/dashboard', admin: false },
   { name: 'Rankings', href: '/athlete/ranking', admin: false },
   { name: 'Cities', href: '/athlete/cities', admin: false },
-  { name: 'Profile', href: '/athlete/profile', admin: false},
   { name: 'Admin', href: '/admin', admin: true },
 ];
 
