@@ -2,6 +2,7 @@
 
 import { Activity } from '@/types';
 import React from 'react';
+import Avatar from './Avatar';
 
 interface ActivityCardProps {
   activity: Activity;
@@ -15,11 +16,7 @@ export const ActivityCard: React.FC<ActivityCardProps> = ({ activity }) => {
         <div className="text-left">
           <p className="font-semibold text-sm sm:text-base text-gray-800">{activity.user.given_name}</p>
         </div>
-        <img
-          src={activity.user.picture || "/placeholder-user.png"}
-          alt={`${activity.user.given_name}'s photo`}
-          className="w-16 h-16 sm:w-14 sm:h-14 rounded-full object-cover border-2 border-gray-300"
-        />
+        <Avatar user={activity.user} className='w-16 h-16 sm:w-14 sm:h-14' />
       </div>
 
       {/* Left Column: Picture */}

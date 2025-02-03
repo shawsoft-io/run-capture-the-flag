@@ -76,6 +76,8 @@ export default function ActivitiesPage() {
         <Greeting name={user.given_name ?? ""}/>
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
 
+
+
         {/* Filters Section */}
         <div className="lg:col-span-1 space-y-4">
           <h2 className="text-xl font-bold">Filters</h2>
@@ -120,8 +122,8 @@ export default function ActivitiesPage() {
               onClick={() => setVisibility('everyone')}
               className={`w-1/2 px-4 py-2 border ${
                 visibility === 'everyone'
-                  ? 'bg-gray-700 text-white'
-                  : 'bg-white text-gray-700 border-gray-300'
+                  ? 'bg-gray-900 text-white'
+                  : 'bg-white text-gray-700 border-gray-900'
               } rounded-l-md`}
             >
               Everyone

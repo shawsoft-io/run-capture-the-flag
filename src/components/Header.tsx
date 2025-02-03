@@ -73,7 +73,6 @@ export default function Header() {
             {/* USER MENU */}
             {user && (
               <div className="relative" ref={menuRef}>
-                {/* Avatar Button */}
                 <button
                   onClick={() => setMenuOpen(!menuOpen)}
                   className={`relative flex max-w-xs mask mask-squircle items-center bg-hotpink text-sm 
@@ -85,7 +84,7 @@ export default function Header() {
                   <Avatar user={user} className="h-14 w-14" />
                 </button>
 
-                {/* Desktop Dropdown Menu */}
+                {/* DESKTOP MENU */}
                 {!isMobile && menuOpen && (
                   <div
                     className="absolute right-0 top-full mt-2 w-48 rounded-md bg-white py-1 shadow-lg 
@@ -109,7 +108,7 @@ export default function Header() {
         </div>
       </nav>
 
-      {/* Mobile Drawer */}
+      {/* MOBILE MENU */}
       <Drawer isOpen={isMobile && menuOpen} onClose={() => setMenuOpen(false)}>
         {userNavigation.map((item) => (
           item.button ? (
