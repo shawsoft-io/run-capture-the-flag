@@ -1,113 +1,143 @@
-'use client'
+'use client';
 
-
-import Link from 'next/link'
-import Navigation from '../components/Navigation'
-import { 
-  Disclosure, 
-  Menu, 
-  MenuButton, 
-  MenuItem, 
-  MenuItems 
-} from '@headlessui/react'
+import Link from 'next/link';
+import Navigation from '../components/Navigation';
 import { useUser } from '@auth0/nextjs-auth0';
 import { ExtendedUserProfile } from '@/types/auth0';
+import Avatar from './Avatar';
+import { useState, useRef, useEffect } from 'react';
+import Drawer from '../components/Drawer';
 
 interface NavigationItem {
   name: string;
   href: string;
+  button: boolean;
 }
 
-const userNavigation : NavigationItem[] = [
-  { name: 'View Profile', href: '/athlete/profile' },
-  { name: 'Sign out',     href: '/auth/logout' },
-]
+const userNavigation: NavigationItem[] = [
+  { name: 'View Profile', href: '/athlete/profile', button: false },
+  { name: 'Sign out', href: '/auth/logout', button: true },
+];
 
 export default function Header() {
-
   const user = useUser().user as ExtendedUserProfile;
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+  const menuRef = useRef<HTMLDivElement>(null);
 
-  return (          
-      <div className='fixed w-full z-[999]'>
+  // Detect mobile view
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
-        {/* MAIN BLACK HEADER */}
-        <Disclosure as="nav" className="bg-dark h-20">
-          <div className="mx-auto max-w-7xl px-4 py-2 sm:px-6 lg:px-8">
-            <div className="flex h-16 items-center justify-between">
-              <div className="flex items-center">
-                <div className="relative cursor-pointer">
-                  <Link href="/">
-                    <img
-                        alt=""
-                        src="/logo-white.png"
-                        className="absolute h-8 w-auto transition-opacity duration-300 opacity-100 hover:opacity-0"
-                      />
-                      <img
-                        alt=""
-                        src="/logo-outline.png"
-                        className="h-8 w-auto transition-opacity duration-300 opacity-100 hover:opacity-100"
-                      />
-                  </Link>
-                </div>
+  // Close menu when clicking outside (for dropdown)
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+        setMenuOpen(false);
+      }
+    }
+    if (!isMobile) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [isMobile]);
+
+  return (
+    <div className="fixed w-full z-[999]">
+      {/* MAIN BLACK HEADER */}
+      <nav className="bg-dark h-20">
+        <div className="mx-auto max-w-7xl px-4 py-2 sm:px-6 lg:px-8">
+          <div className="flex h-16 items-center justify-between">
+            {/* LOGO */}
+            <div className="flex items-center">
+              <div className="relative cursor-pointer">
+                <Link href="/">
+                  <img
+                    alt=""
+                    src="/logo-white.png"
+                    className="absolute h-8 w-auto transition-opacity duration-300 opacity-100 hover:opacity-0"
+                  />
+                  <img
+                    alt=""
+                    src="/logo-outline.png"
+                    className="h-8 w-auto transition-opacity duration-300 opacity-100 hover:opacity-100"
+                  />
+                </Link>
               </div>
-
-                {/* USER MENU */}
-              {user && 
-              <div className="block">
-                <div className="ml-4 flex items-center md:ml-6">
-
-                  <Menu as="div" className="relative ml-3">
-                    <div>
-                      <MenuButton className="relative flex max-w-xs items-center rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-hotpink focus:ring-offset-2 focus:ring-offset-gray-800">
-                        <span className="absolute -inset-1.5" />
-                        <span className="sr-only ">Open user menu</span>
-                       
-                        {user?.picture ? (
-                            <img
-                            src={user?.picture}
-                            alt="Profile"
-                            className="size-12 rounded-full"
-                            />
-                        ) : (    
-                            <span className="size-12 rounded-full bg-white py-[14px] font-bold text-center">
-                            ??
-                            </span>
-                        )}
-
-                      </MenuButton>
-                    </div>
-                    <MenuItems
-                      transition
-                      className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black/5 transition focus:outline-none data-[closed]:scale-95 data-[closed]:transform data-[closed]:opacity-0 data-[enter]:duration-100 data-[leave]:duration-75 data-[enter]:ease-out data-[leave]:ease-in"
-                    >
-                      {userNavigation.map((item) => (
-                        <MenuItem key={item.name}>
-                          <Link
-                            href={item.href}
-                            className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:outline-none"
-                          >
-                            {item.name}
-                          </Link>
-                        </MenuItem>
-                      ))}
-                    </MenuItems>
-                  </Menu>
-                </div>
-              </div>
-            }
             </div>
+
+            {/* USER MENU */}
+            {user && (
+              <div className="relative" ref={menuRef}>
+                {/* Avatar Button */}
+                <button
+                  onClick={() => setMenuOpen(!menuOpen)}
+                  className={`relative flex max-w-xs mask mask-squircle items-center bg-hotpink text-sm 
+                    focus:border-3 active:border-4 border-hotpink transition-all duration-200
+                    ${menuOpen ? 'border-4 border-hotpink' : ''}`}
+                >
+                  <span className="absolute -inset-1.5" />
+                  <span className="sr-only">Open user menu</span>
+                  <Avatar user={user} className="h-14 w-14" />
+                </button>
+
+                {/* Desktop Dropdown Menu */}
+                {!isMobile && menuOpen && (
+                  <div
+                    className="absolute right-0 top-full mt-2 w-48 rounded-md bg-white py-1 shadow-lg 
+                    ring-1 ring-black/5 transition-opacity duration-200 ease-out"
+                  >
+                    {userNavigation.map((item) => (
+                      <Link
+                        key={item.name}
+                        href={item.href}
+                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                        onClick={() => setMenuOpen(false)}
+                      >
+                        {item.name}
+                      </Link>
+                    ))}
+                  </div>
+                )}
+              </div>
+            )}
           </div>
-        </Disclosure>
-     
-        {/* LOGGED IN CONTEXT MENU */}
+        </div>
+      </nav>
 
-        <Navigation user={user}/>
+      {/* Mobile Drawer */}
+      <Drawer isOpen={isMobile && menuOpen} onClose={() => setMenuOpen(false)}>
+        {userNavigation.map((item) => (
+          item.button ? (
+            <button
+              key={item.name}
+              className="w-full block px-4 py-3 text-lg bg-gray-900 hover:bg-gray-800 rounded-lg text-center text-white mb-2"
+              onClick={() => {
+                setMenuOpen(false);
+                // Optionally, handle click action if needed
+              }}
+            >
+              {item.name}
+            </button>
+          ) : (
+            <Link
+              key={item.name}
+              href={item.href}
+              className="block px-4 py-3 text-lg text-gray-700 text-center mb-2"
+              onClick={() => setMenuOpen(false)}
+            >
+              {item.name}
+            </Link>
+          )
+        ))}
+      </Drawer>
 
-
-
-
-      </div>
-
-  
-  )
+      {/* LOGGED IN CONTEXT MENU */}
+      <Navigation user={user} />
+    </div>
+  );
 }

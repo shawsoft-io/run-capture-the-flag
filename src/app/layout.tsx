@@ -7,6 +7,13 @@ import QueryProvider from "../components/QueryProvider";
 export const metadata: Metadata = {
   title: "Run",
   description: "Capture The Flag, Powered by Strava",
+  openGraph: {
+    title: "It's not just a race, it's a turf war! Run fast, think faster, and own the city",
+    images: ["http://localhost:3000/open-graph.png"],
+    type: "website",
+    url: "https://run.shawsoft.io",
+    description: "Powered by Strava"
+  }
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

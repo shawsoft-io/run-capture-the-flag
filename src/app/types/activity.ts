@@ -2,7 +2,7 @@ import { User } from "./user";
 
 export interface Activity {
     id: string;
-    athleteId: string;
+    athlete_id: string;
     date_time_local: string; // ISO string
     distance: number; // in meters
     duration: number; // in seconds

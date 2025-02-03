@@ -1,63 +1,12 @@
 'use client'
 
-import { useState } from 'react';
 import Authorization from '../../../components/Authorization'
-import { QueueLib } from '../../../lib/queue';
+import Avater from '../../../components/Avatar'
+import Sync from '../../../components/Sync'
 
 
 export default function Page() {
   
-  const [syncing, setSyncing] = useState(false);
-  const [message, setMessage] = useState("");
-
-  
-  const handleSync = async () => {
-    setSyncing(true);
-    setMessage('Syncing activities...');
-
-    try {
-      const response = await fetch('/api/strava/activities');
-
-      if (!response.ok) {
-        throw new Error('Failed to sync activities.');
-      }
-
-      const activities = await response.json();
-
-      for (const activity of activities) {
-        const messagePayload = {
-          aspect_type: 'create',
-          event_time: Math.floor(Date.now() / 1000), // Current timestamp
-          object_id: activity.id,
-          object_type: 'activity',
-          owner_id: activity.athlete.id,
-          subscription_id: 271528,
-          updates: {},
-        };
-
-        // Send each activity to the API route responsible for queueing
-        const queueResponse = await fetch('/api/notifications', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(messagePayload),
-        });
-
-        if (!queueResponse.ok) {
-          throw new Error(`Failed to queue activity ${activity.id}`);
-        }
-      }
-
-      setMessage(`Successfully queued ${activities.length} activities.`);
-    } catch (error) {
-      setMessage(`Error: ${error}`);
-    } finally {
-      setSyncing(false);
-    }   
-   
-  };
-
 
   return (
 
@@ -73,17 +22,8 @@ export default function Page() {
           <h1 className="text-2xl font-bold text-center mb-4">Profile</h1>
           <div className="flex flex-col items-center space-y-4">
             
-            {user?.picture ? (
-              <img
-                src={user?.picture}
-                alt="Profile"
-                className="w-32 h-32 rounded-full shadow-lg"
-              />
-            ) : (
-              <span className="flex items-center justify-center text-3xl font-extrabold text-gray-500 bg-gray-200 w-32 h-32 rounded-full">
-                ??
-              </span>
-            )}
+
+          <Avater user={user} className={""} />
             
 
             <table className="min-w-full divide-y divide-gray-300">
@@ -91,12 +31,14 @@ export default function Page() {
                 <tr>
                   <td className="whitespace-nowrap py-4 pl-4 pr-3 text-md font-bold text-black sm:pl-0 flex justify-between items-center gap-x-2">
                     {user?.name || "N/A"}</td>
-                  <td>
-                    <span className="inline-flex items-center rounded-md bg-pink-400/10 px-4 py-1 text-xs font-medium text-pink-400 ring-1 ring-inset ring-pink-400/20">
-                      {user?.['https://run.shawsoft.io/roles'] || "n/a"
-                      }
-        
+                  <td className="space-x-2">
+                      {user?.['https://run.shawsoft.io/roles']?.map((role, id) => (
+                    <span key={id} className="inline-flex items-center rounded-md bg-pink-400/10 px-4 py-1 text-xs font-medium text-pink-400 ring-1 ring-inset ring-pink-400/20">
+                        {role}
                     </span>
+                    ))}
+   
+        
                   </td>
                 </tr>
                 <tr>
@@ -117,19 +59,8 @@ export default function Page() {
         <div className="bg-white shadow-md rounded-lg w-full ">
           <div className="flex flex-col  h-full space-y-4">
             <div className="flex flex-col justify-center items-center lg:flex-row gap-y-2 lg:gap-y-0 lg:gap-x-2 w-full px-5 py-5">
-              <button
-              onClick={handleSync} 
-              disabled={syncing}
-                type="submit"
-                className="bg-black font-bold text-white py-2 px-4 border-2 border-black rounded w-full lg:w-auto hover:bg-black focus:outline-none"
-              >
-                Sync
-              </button>
-              <button
-                className="bg-black font-bold text-white py-2 px-4 border-2 border-black rounded w-full lg:w-auto hover:bg-black focus:outline-none"
-              >
-                Delete Account
-              </button>
+              <Sync athleteId={user?.['https://run.shawsoft.io/athleteId']}/>
+
               {/*<LogoutButton/>*/}
             </div>
           </div>

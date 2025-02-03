@@ -45,7 +45,7 @@ export default function Page()
                         <span aria-hidden="true">&larr;</span> View activity
                     </Link>
                 ) : (
-                    <Link href="/login" className="text-sm/7 font-semibold text-white">
+                    <Link href="/auth/logout" className="text-sm/7 font-semibold text-white">
                         <span aria-hidden="true">&larr;</span> Back to login
                     </Link>
                 )}

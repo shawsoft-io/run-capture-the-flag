@@ -73,7 +73,9 @@ export default function ActivitiesPage() {
     <Authorize>
       {(user) =>
     <div className="mt-60 max-w-7xl mx-auto px-4 lg:px-8">
+        <Greeting name={user.given_name ?? ""}/>
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
+
         {/* Filters Section */}
         <div className="lg:col-span-1 space-y-4">
           <h2 className="text-xl font-bold">Filters</h2>
@@ -139,11 +141,9 @@ export default function ActivitiesPage() {
 
         {/* Activity Feed Section */}
         <div className="lg:col-span-3 space-y-4">
-
-
           
           {Object.entries(groupedActivities).map(([date, activities]) => (
-           <div className='pb-10'>
+           <div key={date} className='pb-10'>
 
            <h3 className="text-2xl font-bold">{formatDate(date)}</h3>
            <div className="bg-white shadow-sm ring-1 ring-gray-900/5  rounded-xl md:col-span-2 overflow-hidden">
