@@ -12,9 +12,10 @@ interface Athlete {
   totalDistance: number;
   totalDuration: number;
   totalActivities: number;
-  totalPoints: number;
-  cityClaimedCount: number;
+  activityPoints: number;
+  cityPoints: number;
   pacePoints: number;
+  totalPoints: number;
 }
 
 export default function LeagueTablePage() {
@@ -37,7 +38,7 @@ export default function LeagueTablePage() {
   return (
     <Authorization>
       {() => (
-    <div className="max-w-7xl mx-auto mt-36 sm:mt-40 sm:mb-10">
+    <div className="max-w-7xl mx-auto mt-48 sm:mt-52 sm:mb-10">
      
 
       <div className="overflow-x-auto shadow-lg rounded-lg">
@@ -81,8 +82,7 @@ export default function LeagueTablePage() {
 
         <tbody className="bg-white divide-y divide-gray-200">
           {data?.athletes.map((athlete: Athlete, index: number) => {
-            const cityPoints = athlete.cityClaimedCount * 10;
-            const totalPoints = athlete.totalPoints + cityPoints + (athlete.pacePoints || 0);
+
             const firstName = athlete.name.split(" ")[0]; // Extracts only the first name
 
             return (
@@ -90,8 +90,8 @@ export default function LeagueTablePage() {
                 {/* Rank */}
                 <td className="whitespace-nowrap py-6 pl-4 pr-3 text-lg font-bold text-gray-900 sm:pl-6">
                 <span
-  className={`inline-flex items-center justify-center rounded-full w-10 h-10  text-lg font-bold 
-    ${index === 0 ? "bg-yellow-500" : index === 1 ? "bg-gray-300" : index === 2 ? "bg-orange-300" : "bg-white text-black border-4 border-black"}`}
+  className={`inline-flex items-center justify-center rounded-full w-10 h-10  text-lg font-bold border-2  
+    ${index === 0 ? "bg-[#efbf04] border-yellow-500" : index === 1 ? "bg-[#c4c4c4] border-gray-500 " : index === 2 ? "bg-[#ce8946] border-orange-800" : "bg-white text-black border-black"}`}
 >
   {index + 1}
 </span>
@@ -137,10 +137,10 @@ export default function LeagueTablePage() {
                 <td className="md:hidden px-3 py-4 text-sm text-gray-700 text-center font-bold">
                   <div>
                     <span className="block text-gray-900 text-lg font-semibold">
-                      {totalPoints}
+                      {athlete.totalPoints}
                     </span>
                     <span className="block text-gray-500 text-xs">
-                      {athlete.totalPoints} Act • {cityPoints} City • {athlete.pacePoints || 0} Pace
+                      {athlete.totalPoints} Act • {athlete.cityPoints} City • {athlete.pacePoints || 0} Pace
                     </span>
                   </div>
                 </td>
@@ -152,7 +152,7 @@ export default function LeagueTablePage() {
 
                 {/* City Points (hidden on small & medium screens) */}
                 <td className="hidden lg:table-cell px-3 py-4 text-sm text-gray-700 text-center font-bold">
-                  {cityPoints}
+                  {athlete.cityPoints}
                 </td>
 
                 {/* Pace Points (hidden on small & medium screens) */}
@@ -162,7 +162,7 @@ export default function LeagueTablePage() {
 
                 {/* Total Points (hidden on small screens) */}
                 <td className="hidden md:table-cell px-3 py-4 text-sm text-gray-900 text-center font-bold">
-                  {totalPoints}
+                  {athlete.totalPoints}
                 </td>
               </tr>
             );

@@ -1,13 +1,7 @@
 import { NextResponse } from 'next/server';
 import { getDatabase } from '../../../lib/mongodb';
 import { WithId } from 'mongodb';
-
-interface User {
-  _id: string; // oauth2|Strava|123456789
-  given_name: string;
-  family_name: string;
-  picture: string;
-}
+import { User } from '@/types';
 
 export async function GET() {
   try {
@@ -34,9 +28,9 @@ export async function GET() {
                   totalDistance: { $sum: '$distance' },
                   totalDuration: { $sum: '$duration' },
                   totalActivities: { $sum: 1 },
-                  totalPoints: { $sum: '$activity_points' },
+                  activityPoints: { $sum: '$activity_points' },
                   pacePoints: { $sum: '$pace_points' },
-                  cityClaimedCount: { "$sum": { "$cond": ["$claimed", 1, 0] } }
+                  cityClaimedCount: { $sum: { $cond: ['$claimed', 1, 0] } } // Count claimed cities
                 },
               },
             ],
@@ -50,6 +44,18 @@ export async function GET() {
           },
         },
         {
+          $set: {
+            cityPoints: { $multiply: ['$activityData.cityClaimedCount', 10] }, // ✅ cityClaimedCount * 10
+            totalPoints: { 
+              $add: [
+                { $ifNull: ['$activityData.activityPoints', 0] },
+                { $ifNull: ['$activityData.pacePoints', 0] },
+                { $multiply: ['$activityData.cityClaimedCount', 10] } // ✅ cityPoints
+              ] 
+            } // ✅ totalPoints = activityPoints + pacePoints + cityPoints
+          },
+        },
+        {
           $project: {
             athleteId: { $substrBytes: ['$_id', 14, -1] }, // Extract numeric part of the ID
             name: { $concat: ['$given_name', ' ', '$family_name'] }, // Combine first & last name
@@ -57,12 +63,13 @@ export async function GET() {
             totalDistance: { $ifNull: ['$activityData.totalDistance', 0] }, // Default to 0 if no activity data
             totalDuration: { $ifNull: ['$activityData.totalDuration', 0] },
             totalActivities: { $ifNull: ['$activityData.totalActivities', 0] },
-            totalPoints: { $ifNull: ['$activityData.totalPoints', 0] },
+            activityPoints: { $ifNull: ['$activityData.activityPoints', 0] },
             pacePoints: { $ifNull: ['$activityData.pacePoints', 0] },
-            cityClaimedCount: { $ifNull: ['$activityData.cityClaimedCount', 0] }
+            cityPoints: 1, // ✅ New city points
+            totalPoints: 1, // ✅ New total points
           },
         },
-        { $sort: { totalPoints: -1 } }, // Sort by totalPoints DESC
+        { $sort: { totalPoints: -1 } }, // ✅ Sort by the new total points DESC
       ])
       .toArray();
 

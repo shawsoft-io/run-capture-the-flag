@@ -24,7 +24,7 @@ export const ActivityCard: React.FC<ActivityCardProps> = ({ activity }) => {
         <img
           src={activity.map_url || "/treadmill.png"}
           alt={`${activity.city} Activity`}
-          className={`object-cover ${!activity.map_url ? "p-12" : "h-full w-full"}`}
+          className={`object-cover ${!activity.map_url ? "p-12" : "h-full w-full aspect-[4/3]"}`}
         />
       </div>
 

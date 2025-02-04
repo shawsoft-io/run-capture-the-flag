@@ -8,6 +8,7 @@ interface Activity {
   city: string;
   country: string;
   claimed: boolean;
+  city_photo_url: string;
 }
 
 export async function GET() {
@@ -55,6 +56,7 @@ export async function GET() {
             cities: {
               $push: {
                 city: '$city',
+                city_photo_url: { $ifNull: ['$city_photo_url', '/image-placeholder.png'] } ,
                 name: { $ifNull: ['$user.name', 'Unknown Athlete'] },
                 picture: { $ifNull: ['$user.picture', 'https://via.placeholder.com/100?text=No+Image'] },
               },
