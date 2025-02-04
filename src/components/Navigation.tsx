@@ -43,7 +43,7 @@ const Navigation: React.FC<NavigationProps> = React.memo(({ user }) => {
     <div className="h-28 pt-10 bg-gray-100 shadow-md">
       <header>
         <div className="flex mx-auto max-w-7xl pb-4 px-4 sm:px-6 lg:px-8 gap-x-10">
-          <div className="flex gap-x-10 overflow-x-auto whitespace-nowrap pr-4 scrollbar-hidden">
+          <div className="flex gap-x-10 overflow-x-auto whitespace-nowrap pr-4 scrollbar-hidden [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
             {navigation.map((item) => {
               // Show admin links only if the user has the "admin" role
               if (item.admin && !roles.includes('admin')) {
