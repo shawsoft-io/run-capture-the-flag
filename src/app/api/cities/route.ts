@@ -5,6 +5,7 @@ import { WithId } from 'mongodb';
 interface Activity {
   _id: string;
   athlete_id: number;
+  distance: number;
   city: string;
   country: string;
   claimed: boolean;
@@ -56,6 +57,7 @@ export async function GET() {
             cities: {
               $push: {
                 city: '$city',
+                distance: '$distance',
                 city_photo_url: { $ifNull: ['$city_photo_url', '/image-placeholder.png'] } ,
                 name: { $ifNull: ['$user.name', 'Unknown Athlete'] },
                 picture: { $ifNull: ['$user.picture', 'https://via.placeholder.com/100?text=No+Image'] },

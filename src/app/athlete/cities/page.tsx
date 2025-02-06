@@ -7,6 +7,7 @@ import Authorization from '../../../components/Authorization';
 interface ClaimedCity {
   city: string;
   name: string;
+  distance: number;
   picture: string; // Claimer's photo
   city_photo_url: string; // City Image URL
 }
@@ -61,6 +62,9 @@ export default function ClaimedCityPage() {
                       <div>
                         <p className="text-white font-bold">{claimedCity.name}</p>
                         <p className="text-gray-300 text-sm">{claimedCity.city}</p>
+                      </div>
+                      <div className="flex rounded-full bg-white/30 px-2 ml-auto ">
+                        <p className='text-white font-bold text-lg r-4'>{(claimedCity.distance/1000).toFixed(2)} km</p>
                       </div>
                     </div>
                   </div>
