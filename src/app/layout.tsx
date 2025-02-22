@@ -1,8 +1,16 @@
 import "./globals.css";
 import type { Metadata } from "next";
+import { Inter } from "next/font/google"
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import QueryProvider from "../components/QueryProvider";
+import { TeamToggleContextProvider } from '../components/TeamToggleContext'
+
+const prompt = Inter({
+  subsets: ["latin"],
+  weight: ["400", "900"],  
+  style: ["normal", "italic"], 
+});
 
 export const metadata: Metadata = {
   title: "Run",
@@ -19,11 +27,13 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body className="antialiased relative flex flex-col min-h-screen">
+      <body className={`${prompt.className} antialiased relative flex flex-col min-h-screen`}>
         <QueryProvider>
-          <Header />
-          <div className="grow bg-blue-100/20">{children}</div>
-          <Footer />
+          <TeamToggleContextProvider>
+            <Header />
+            <div className="grow bg-blue-100/20">{children}</div>
+            <Footer />
+          </TeamToggleContextProvider>
         </QueryProvider>
       </body>
     </html>

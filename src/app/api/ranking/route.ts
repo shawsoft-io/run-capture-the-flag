@@ -1,14 +1,15 @@
-import { NextResponse } from 'next/server';
+import { NextResponse, NextRequest } from 'next/server';
 import { getDatabase } from '../../../lib/mongodb';
 import { WithId } from 'mongodb';
 import { User } from '@/types';
 
-export async function GET() {
+export async function GET(req : NextRequest) {
   try {
-    const db = await getDatabase('strava_app'); // Update with your actual DB name
-    const usersCollection = db.collection<WithId<User>>('users');
+    const { searchParams } = new URL(req.url);
+    const groupBy = searchParams.get("groupBy"); 
 
-    // Get all users except the excluded user, and left join with activity data
+    const db = await getDatabase('strava_app'); 
+    const usersCollection = db.collection<WithId<User>>('users');
     const athletes = await usersCollection
       .aggregate([
         {
@@ -19,18 +20,18 @@ export async function GET() {
         {
           $lookup: {
             from: 'activity_detail',
-            let: { athleteIdStr: { $substrBytes: ['$_id', 14, -1] } }, // Extract numeric athlete ID
+            let: { athleteIdStr: { $substrBytes: ['$_id', 14, -1] } }, 
             pipeline: [
-              { $match: { $expr: { $eq: [{ $toString: '$athlete_id' }, '$$athleteIdStr'] } } }, // Match converted ID
+              { $match: { $expr: { $eq: [{ $toString: '$athlete_id' }, '$$athleteIdStr'] } } }, 
               {
                 $group: {
-                  _id: null, // Group all activities per user
+                  _id: null, 
                   totalDistance: { $sum: '$distance' },
                   totalDuration: { $sum: '$duration' },
                   totalActivities: { $sum: 1 },
                   activityPoints: { $sum: '$activity_points' },
                   pacePoints: { $sum: '$pace_points' },
-                  cityClaimedCount: { $sum: { $cond: ['$claimed', 1, 0] } } // Count claimed cities
+                  cityClaimedCount: { $sum: { $cond: ['$claimed', 1, 0] } } 
                 },
               },
             ],
@@ -40,19 +41,19 @@ export async function GET() {
         {
           $unwind: {
             path: '$activityData',
-            preserveNullAndEmptyArrays: true, // Keep users even if they have no activities
+            preserveNullAndEmptyArrays: true,
           },
         },
         {
           $set: {
-            cityPoints: { $multiply: ['$activityData.cityClaimedCount', 10] }, // ✅ cityClaimedCount * 10
+            cityPoints: { $multiply: ['$activityData.cityClaimedCount', 10] },
             totalPoints: { 
               $add: [
                 { $ifNull: ['$activityData.activityPoints', 0] },
                 { $ifNull: ['$activityData.pacePoints', 0] },
-                { $multiply: ['$activityData.cityClaimedCount', 10] } // ✅ cityPoints
+                { $multiply: ['$activityData.cityClaimedCount', 10] } 
               ] 
-            } // ✅ totalPoints = activityPoints + pacePoints + cityPoints
+            } 
           },
         },
         {

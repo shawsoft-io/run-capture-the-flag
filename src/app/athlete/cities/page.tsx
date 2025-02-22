@@ -37,7 +37,7 @@ export default function ClaimedCityPage() {
   return (
     <Authorization>
       {() => (
-        <div className="max-w-7xl mx-auto mt-10 px-4 mt-52">
+        <div className="max-w-7xl mx-auto mt-10 px-8 mt-52">
           {data?.claimedCities.map((country: ClaimedCountry) => (
             <div key={country._id} className="mb-20">
               <h2 className="text-2xl font-bold text-gray-900 mb-6">{country._id}</h2>

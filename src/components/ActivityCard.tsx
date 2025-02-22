@@ -10,7 +10,7 @@ interface ActivityCardProps {
 
 export const ActivityCard: React.FC<ActivityCardProps> = ({ activity }) => {
   return (
-    <div className="relative flex flex-col sm:flex-row bg-white overflow-hidden sm:h-[270px]">
+    <div className="relative flex flex-col sm:flex-row bg-white overflow-hidden ">
       {/* User Info: Name and Photo */}
       <div className="absolute top-4 right-4 sm:bg-white bg-gray-100/50 rounded-lg p-2 flex items-center justify-between gap-x-2">
         <div className="text-left">
@@ -24,14 +24,14 @@ export const ActivityCard: React.FC<ActivityCardProps> = ({ activity }) => {
         <img
           src={activity.map_url || "/treadmill.png"}
           alt={`${activity.city} Activity`}
-          className={`object-cover ${!activity.map_url ? "p-12" : "h-full w-full aspect-[4/3]"}`}
+          className={`object-cover ${!activity.map_url ? "p-32 opacity-80" : "h-full w-full aspect-[4/3]"}`}
         />
       </div>
 
       {/* Right Column: Stats */}
       <div className="w-full sm:w-2/3 p-4">
         <div className="flex items-end mb-2">
-          <h2 className="font-extrabold text-4xl sm:text-5xl">{(activity.distance / 1000).toFixed(2)}</h2>
+          <h2 className="font-extrabold text-5xl sm:text-5xl">{(activity.distance / 1000).toFixed(2)}</h2>
           <span className="text-sm sm:text-md self-end ml-2 text-gray-500">kilometers</span>
         </div>
 
@@ -61,7 +61,9 @@ export const ActivityCard: React.FC<ActivityCardProps> = ({ activity }) => {
           </div>
         </div>
 
-        <div className="flex flex-wrap gap-3 pt-4 border-tborder-[1px] border-gray-300 mt-8">
+        { (activity.claimed || activity.fastest_monthly_5km) && (
+
+        <div className="border-t flex flex-wrap gap-3 pt-4 border-tborder-[1px] border-gray-300 mt-8">
           {activity.claimed && (
             <div className="flex items-center gap-2">
               <img src="/medal.png" alt="City claimed" className="h-6 sm:h-8 w-auto" />
@@ -79,6 +81,7 @@ export const ActivityCard: React.FC<ActivityCardProps> = ({ activity }) => {
             </div>
           )}
         </div>
+        )}
       </div>
     </div>
   );

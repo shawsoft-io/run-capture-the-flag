@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import Navigation from '../components/Navigation';
+import TeamToggle from '../components/TeamToggle'
 import { useUser } from '@auth0/nextjs-auth0';
 import { ExtendedUserProfile } from '@/types/auth0';
 import Avatar from './Avatar';
@@ -70,6 +71,12 @@ export default function Header() {
               </div>
             </div>
 
+
+           {/* TEAM / INDIVIDUAL CONTEXT */}
+            <div className="flex ml-auto pr-6 justify-end">
+              <TeamToggle />
+            </div>
+
             {/* USER MENU */}
             {user && (
               <div className="relative" ref={menuRef}>
@@ -106,7 +113,9 @@ export default function Header() {
             )}
           </div>
         </div>
+
       </nav>
+
 
       {/* MOBILE MENU */}
       <Drawer isOpen={isMobile && menuOpen} onClose={() => setMenuOpen(false)}>
@@ -117,7 +126,6 @@ export default function Header() {
               className="w-full block px-4 py-3 text-lg bg-gray-900 hover:bg-gray-800 rounded-lg text-center text-white mb-2"
               onClick={() => {
                 setMenuOpen(false);
-                // Optionally, handle click action if needed
               }}
             >
               {item.name}

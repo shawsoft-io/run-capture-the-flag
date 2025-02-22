@@ -8,6 +8,7 @@ import Loading from '../../../components/Loading';
 import { Activity } from '@/types';
 import { formatDate } from '../../../lib/dateUtil'
 import Authorize from '../../../components/Authorization'
+import { FcCalendar } from "react-icons/fc";
 
 
 export default function ActivitiesPage() {
@@ -72,7 +73,7 @@ export default function ActivitiesPage() {
   return (
     <Authorize>
       {(user) =>
-    <div className="mt-60 max-w-7xl mx-auto px-4 lg:px-8">
+    <div className="mt-60 max-w-7xl mx-auto px-8 lg:px-8">
         <Greeting name={user.given_name ?? ""}/>
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
 
@@ -145,9 +146,12 @@ export default function ActivitiesPage() {
         <div className="lg:col-span-3 space-y-4">
           
           {Object.entries(groupedActivities).map(([date, activities]) => (
-           <div key={date} className='pb-10'>
+           <div key={date} className='pb-16'>
 
-           <h3 className="text-2xl font-bold">{formatDate(date)}</h3>
+           <h3 className="text-xl font-extrabold pb-4 flex gap-x-2 items-center">
+           <FcCalendar />
+           {formatDate(date)}
+           </h3>
            <div className="bg-white shadow-sm ring-1 ring-gray-900/5  rounded-xl md:col-span-2 overflow-hidden">
              {activities.map((activity, index) => (
                <div
