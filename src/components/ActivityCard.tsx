@@ -10,9 +10,9 @@ interface ActivityCardProps {
 
 export const ActivityCard: React.FC<ActivityCardProps> = ({ activity }) => {
   return (
-    <div className="relative flex flex-col sm:flex-row bg-white overflow-hidden ">
+    <div className="relative flex flex-col sm:flex-row bg-white overflow-hidden">
       {/* User Info: Name and Photo */}
-      <div className="absolute top-4 right-4 sm:bg-white bg-gray-100/50 rounded-lg p-2 flex items-center justify-between gap-x-2">
+      <div className="absolute top-4 right-4 sm:bg-white bg-gray-100/50 rounded-lg p-2 flex  items-center justify-between gap-x-2">
         <div className="text-left">
           <p className="font-semibold text-sm sm:text-base text-gray-800">{activity.user.given_name}</p>
         </div>
@@ -20,11 +20,11 @@ export const ActivityCard: React.FC<ActivityCardProps> = ({ activity }) => {
       </div>
 
       {/* Left Column: Picture */}
-      <div className="w-full sm:w-1/3 flex items-center justify-center bg-gray-100">
+      <div className="w-full sm:w-1/3 flex items-center justify-center">
         <img
           src={activity.map_url || "/treadmill.png"}
           alt={`${activity.city} Activity`}
-          className={`object-cover ${!activity.map_url ? "p-32 opacity-80" : "h-full w-full aspect-[4/3]"}`}
+          className={`object-cover ${!activity.map_url ? "p-16 bg-gray-100 opacity-80" : "h-full w-full aspect-[4/3]"}`}
         />
       </div>
 
@@ -63,11 +63,11 @@ export const ActivityCard: React.FC<ActivityCardProps> = ({ activity }) => {
 
         { (activity.claimed || activity.fastest_monthly_5km) && (
 
-        <div className="border-t flex flex-wrap gap-3 pt-4 border-tborder-[1px] border-gray-300 mt-8">
+        <div className="border-t flex flex-wrap gap-3 pt-4 border-tborder-[1px] border-gray-200/80 mt-8">
           {activity.claimed && (
             <div className="flex items-center gap-2">
               <img src="/medal.png" alt="City claimed" className="h-6 sm:h-8 w-auto" />
-              <span className="inline-flex items-center rounded-full bg-gray-50 px-2 py-0.5 text-xs font-medium text-gray-600 ring-1 ring-inset ring-gray-500/10">
+              <span className="inline-flex items-center rounded-full bg-orange-50 px-2 py-0.5 text-xs font-medium text-yellow-600 ring-1 ring-inset ring-yellow-500/10">
                 City Claimed
               </span>
             </div>

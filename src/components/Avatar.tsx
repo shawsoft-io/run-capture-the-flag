@@ -28,7 +28,7 @@ const Avatar: React.FC<AvatarProps> = ({ user, className ="" }) => {
         <img
           src={user.picture}
           alt="Profile"
-          className="w-full h-full object-cover"
+          className="w-full h-full object-cover object-top"
         />
       ) : (
         <span className="text-1xl font-extrabold text-gray-500">

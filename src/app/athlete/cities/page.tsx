@@ -3,6 +3,7 @@
 import { useQuery } from '@tanstack/react-query';
 import Loading from '../../../components/Loading';
 import Authorization from '../../../components/Authorization';
+import FlagIcon from '../../../components/FlagIcon'
 
 interface ClaimedCity {
   city: string;
@@ -37,10 +38,13 @@ export default function ClaimedCityPage() {
   return (
     <Authorization>
       {() => (
-        <div className="max-w-7xl mx-auto mt-10 px-8 mt-52">
+        <div className="max-w-7xl mx-auto mt-10 px-8 mt-60">
           {data?.claimedCities.map((country: ClaimedCountry) => (
             <div key={country._id} className="mb-20">
-              <h2 className="text-2xl font-bold text-gray-900 mb-6">{country._id}</h2>
+              <h2 className="flex items-center gap-x-2 text-2xl font-bold text-gray-900 mb-6">
+              <FlagIcon countryName={country._id} />
+                {country._id}
+              </h2>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
                 {country.cities.map((claimedCity, index) => (

@@ -11,6 +11,7 @@ import Authorize from '../../../components/Authorization'
 import { FcCalendar } from "react-icons/fc";
 
 
+
 export default function ActivitiesPage() {
   const { ref, inView } = useInView();
 

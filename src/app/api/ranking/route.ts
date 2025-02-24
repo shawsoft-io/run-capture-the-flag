@@ -1,13 +1,12 @@
-import { NextResponse, NextRequest } from 'next/server';
+import { NextResponse } from 'next/server';
 import { getDatabase } from '../../../lib/mongodb';
 import { WithId } from 'mongodb';
 import { User } from '@/types';
 
-export async function GET(req : NextRequest) {
+export async function GET() {
   try {
-    const { searchParams } = new URL(req.url);
-    const groupBy = searchParams.get("groupBy"); 
 
+    
     const db = await getDatabase('strava_app'); 
     const usersCollection = db.collection<WithId<User>>('users');
     const athletes = await usersCollection
