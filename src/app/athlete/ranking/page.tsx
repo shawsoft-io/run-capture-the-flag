@@ -14,7 +14,7 @@ import {
   ChartTooltip,
   ChartTooltipContent,
   ChartConfig
-} from "@/components/ui/chart";
+} from "../../components/ui/chart";
 
 interface Athlete {
   athleteId: string;
