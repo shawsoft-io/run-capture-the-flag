@@ -37,7 +37,7 @@ const chartConfig: Record<string, { label: string; color: string }> = {
   activityPoints: { label: "Activity Points", color: "#ea319d" }, 
   cityPoints: { label: "City Points", color: "black" }, 
   pacePoints: { label: "Pace Points", color: "#e9e9e9" } 
-};
+} satisfies ChartConfig;
 
 export default function LeagueTablePage() {
   const fetchAthletes = async () => {

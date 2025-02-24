@@ -6,9 +6,8 @@ const countryData: Record<string, string> = countryLookup;
 
 interface FlagProps {
   countryName: string;
-  size?: number;
 }
-export default function FlagIcon({ countryName, size = 40 }: FlagProps) {
+export default function FlagIcon({ countryName}: FlagProps) {
 
   const countryCode = countryData[countryName] || "UN"; 
 
