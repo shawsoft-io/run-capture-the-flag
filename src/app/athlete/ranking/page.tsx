@@ -65,7 +65,7 @@ export default function LeagueTablePage() {
               <thead className="bg-gray-100">
                 <tr>
                   <th className="px-3 py-3.5 text-center text-sm font-semibold text-gray-900">Athlete</th>
-                  <th className="px-3 py-3.5 text-center text-sm font-semibold text-gray-900">Activities</th>
+                  <th className="hidden sm:table-cell px-3 py-3.5 text-center text-sm font-semibold text-gray-900">Activities</th>
                   <th className="px-3 py-3.5 text-center text-sm font-semibold text-gray-900">Distance<br/>Time</th>
                   <th className="px-3 py-3.5 text-center text-sm font-semibold text-gray-900">Points</th>
                 </tr>
@@ -116,7 +116,7 @@ export default function LeagueTablePage() {
                       </td>
 
                       {/* Total Activities */}
-                      <td className="px-3 py-4 text-center text-xl font-semibold text-black">
+                      <td className="hidden sm:table-cell px-3 py-4 text-center text-xl font-semibold text-black">
                         {athlete.totalActivities}
                       </td>
 
