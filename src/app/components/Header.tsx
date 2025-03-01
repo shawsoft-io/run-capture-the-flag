@@ -8,7 +8,7 @@ import { ExtendedUserProfile } from '@/types/auth0';
 import Avatar from './Avatar';
 import { useState, useRef, useEffect } from 'react';
 import Drawer from './Drawer';
-import { Button } from '@/components/ui/button'
+import { Button } from '../components/ui/button'
 
 interface NavigationItem {
   name: string;
