@@ -3,7 +3,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import type { ExtendedUserProfile } from '../app/types/auth0';
+import type { ExtendedUserProfile } from '../types/auth0';
 
 interface NavigationItem {
   name: string;

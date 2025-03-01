@@ -7,7 +7,8 @@ import { useUser } from '@auth0/nextjs-auth0';
 import { ExtendedUserProfile } from '@/types/auth0';
 import Avatar from './Avatar';
 import { useState, useRef, useEffect } from 'react';
-import Drawer from '../components/Drawer';
+import Drawer from './Drawer';
+import { Button } from '@/components/ui/button'
 
 interface NavigationItem {
   name: string;
@@ -121,20 +122,20 @@ export default function Header() {
       <Drawer isOpen={isMobile && menuOpen} onClose={() => setMenuOpen(false)}>
         {userNavigation.map((item) => (
           item.button ? (
-            <button
+            <Button
               key={item.name}
-              className="w-full block px-4 py-3 text-lg bg-gray-900 hover:bg-gray-800 rounded-lg text-center text-white mb-2"
+              className="w-full h-14 px-4 p-3 text-xl bg-black hover:bg-gray-800 rounded-lg text-center text-white mb-5"
               onClick={() => {
                 setMenuOpen(false);
               }}
             >
               {item.name}
-            </button>
+            </Button>
           ) : (
             <Link
               key={item.name}
               href={item.href}
-              className="block px-4 py-3 text-lg text-gray-700 text-center mb-2"
+              className="h-14 block px-4 py-3 text-xl text-gray-700 text-center mb-2 border border-gray-300 rounded-md "
               onClick={() => setMenuOpen(false)}
             >
               {item.name}

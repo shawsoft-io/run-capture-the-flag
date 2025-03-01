@@ -4,13 +4,11 @@ import { WithId } from 'mongodb';
 import { Activity } from '@/types';
 import { auth0 } from '../../../../lib/auth0';
 
-
 export async function GET(req: NextRequest) {
   try {
-
-    
     const queryParams = req.nextUrl.searchParams;
-    const month = queryParams.get('month'); // Format: YYYY-MM
+    const month = queryParams.get('month'); 
+    const year = queryParams.get('year'); 
     const visibility = queryParams.get('visibility') || 'everyone';
     const page = parseInt(queryParams.get('page') || '1', 10);
     const limit = 5;
@@ -19,22 +17,22 @@ export async function GET(req: NextRequest) {
     const db = await getDatabase('strava_app');
     const activityCollection = db.collection<WithId<Activity>>('activity_detail');
 
-    // Build date filter if 'month' is provided
+    // Build date filter if 'year' is provided
     let dateFilter = {};
-    if (month) {
-      const [year, monthIndex] = month.split('-').map(Number);
-      const startDate = new Date(year, monthIndex - 1, 1);
-      const endDate = new Date(year, monthIndex, 1);
+    if (year) {
+      const startDate = month ? new Date(parseInt(year), parseInt(month) - 1, 1) : new Date(parseInt(year), 0, 1);
+      const endDate = month ? new Date(parseInt(year), parseInt(month), 1) : new Date(parseInt(year) + 1, 0, 1);
       dateFilter = { date_time_local: { $gte: startDate, $lt: endDate } };
     }
 
     // Build athlete filter if visibility is 'me'
     let athleteFilter = {};
     if (visibility === 'me') {
-
       const session = await auth0.getSession();
-      const currentAthleteId = session?.user["https://run.shawsoft.io/athleteId"]; // Replace with actual athlete ID
-      athleteFilter = { athlete_id: currentAthleteId };
+      const currentAthleteId = session?.user["https://run.shawsoft.io/athleteId"];
+      if (currentAthleteId) {
+        athleteFilter = { athlete_id: currentAthleteId };
+      }
     }
 
     // Combine all filters
@@ -42,28 +40,28 @@ export async function GET(req: NextRequest) {
 
     // Aggregation pipeline
     const activities = await activityCollection.aggregate([
-        { $match: queryFilters }, // Apply filters
+        { $match: queryFilters },
         {
           $lookup: {
-            from: 'users', // Name of the user collection
-            let: { athleteId: { $toString: '$athlete_id' } }, // Convert athlete_id to string
+            from: 'users',
+            let: { athleteId: { $toString: '$athlete_id' } },
             pipeline: [
               {
                 $addFields: {
-                  extracted_id: { $arrayElemAt: [{ $split: ['$_id', '|'] }, 2] }, // Extract <id> from user _id
+                  extracted_id: { $arrayElemAt: [{ $split: ['$_id', '|'] }, 2] },
                 },
               },
               {
-                $match: { $expr: { $eq: ['$extracted_id', '$$athleteId'] } }, // Match extracted_id with athleteId
+                $match: { $expr: { $eq: ['$extracted_id', '$$athleteId'] } },
               },
             ],
-            as: 'user_info', // Output array field containing matched docs
+            as: 'user_info',
           },
         },
-        { $unwind: { path: '$user_info', preserveNullAndEmptyArrays: true } }, // Flatten user_info array
-        { $sort: { date_time_local: -1 } }, // Sort by date
-        { $skip: (page - 1) * limit }, // Pagination: skip to the current page
-        { $limit: limit }, // Limit results per page
+        { $unwind: { path: '$user_info', preserveNullAndEmptyArrays: true } },
+        { $sort: { date_time_local: -1 } },
+        { $skip: (page - 1) * limit },
+        { $limit: limit },
       ]).toArray();
 
     // Map activities to include necessary fields for the frontend
@@ -81,9 +79,9 @@ export async function GET(req: NextRequest) {
       fastest_monthly_5km: activity.fastest_monthly_5km,
       claimed: activity.claimed,
       user: {
-        given_name: activity.user_info.given_name,
-        family_name: activity.user_info.family_name,
-        picture: activity.user_info.picture,
+        given_name: activity.user_info?.given_name,
+        family_name: activity.user_info?.family_name,
+        picture: activity.user_info?.picture,
       },
     }));
 

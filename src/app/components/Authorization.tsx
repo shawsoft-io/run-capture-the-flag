@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useUser } from '@auth0/nextjs-auth0';
-import type { ExtendedUserProfile } from '../app/types/auth0';
+import type { ExtendedUserProfile } from '../types/auth0';
 import Loading from './Loading';
 
 interface ExtendedUserProps {
@@ -20,14 +20,12 @@ const Authorization: React.FC<ExtendedUserProps> = ({
   requiredRoles = [],
 }) => {
   const { user, isLoading } = useUser();
-  console.error(useUser())
   const router = useRouter();
   const [isVerified, setIsVerified] = useState(false);
   const [isRedirecting, setIsRedirecting] = useState(false);
 
   useEffect(() => {
 
-    console.log("Ok");
 
     if (isLoading || !user) {
       // Wait for user to load

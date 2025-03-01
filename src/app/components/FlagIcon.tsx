@@ -1,6 +1,6 @@
 import React from 'react';
 import Flag from 'react-world-flags'
-import countryLookup from "../lib/countries.json"
+import countryLookup from "../../lib/countries.json"
 
 const countryData: Record<string, string> = countryLookup;
 

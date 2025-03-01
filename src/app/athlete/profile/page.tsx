@@ -1,8 +1,8 @@
 'use client'
 
-import Authorization from '../../../components/Authorization'
-import Avater from '../../../components/Avatar'
-import Sync from '../../../components/Sync'
+import Authorization from '../../components/Authorization'
+import Avater from '../../components/Avatar'
+import Sync from '../../components/Sync'
 
 
 export default function Page() {

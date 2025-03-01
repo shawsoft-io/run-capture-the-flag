@@ -2,9 +2,9 @@
 
 import * as React from "react";
 import { useQuery } from '@tanstack/react-query';
-import Loading from '../../../components/Loading';
-import Avatar from '../../../components/Avatar';
-import Authorization from '../../../components/Authorization';
+import Loading from '../../components/Loading';
+import Avatar from '../../components/Avatar';
+import Authorization from '../../components/Authorization';
 import { TrophyIcon } from "@heroicons/react/24/solid";
 import { PieChart, Pie, Label, Cell } from "recharts";
 import { FaMedal } from "react-icons/fa";

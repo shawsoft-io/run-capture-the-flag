@@ -13,7 +13,7 @@ export const ActivityCard: React.FC<ActivityCardProps> = ({ activity }) => {
   return (
     <div className="relative flex flex-col sm:flex-row bg-white overflow-hidden">
       {/* User Info: Name and Photo */}
-      <div className="absolute top-4 right-4 sm:bg-white bg-gray-100/50 rounded-lg p-2 flex  items-center justify-between gap-x-2">
+      <div className="absolute top-4 right-4 sm:bg-white bg-gray-100/50 rounded-lg p-2 flex  items-center justify-between gap-x-2 z-20">
         <div className="text-left">
           <p className="font-semibold text-sm sm:text-base text-gray-800">{activity.user.given_name}</p>
         </div>

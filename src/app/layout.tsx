@@ -1,10 +1,11 @@
 import "./globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google"
-import Header from "../components/Header";
-import Footer from "../components/Footer";
-import QueryProvider from "../components/QueryProvider";
-import { TeamToggleContextProvider } from '../components/TeamToggleContext'
+import Header from "./components/Header";
+import Footer from "./components/Footer";
+import QueryProvider from "./components/QueryProvider";
+import { TeamToggleContextProvider } from './components/TeamToggleContext'
+import {DataFilterProvider } from './context/DataFilterContext'
 
 const prompt = Inter({
   subsets: ["latin"],
@@ -29,11 +30,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en">
       <body className={`${prompt.className} antialiased relative flex flex-col min-h-screen`}>
         <QueryProvider>
+          <DataFilterProvider>
           <TeamToggleContextProvider>
             <Header />
             <div className="grow bg-blue-100/20">{children}</div>
             <Footer />
           </TeamToggleContextProvider>
+          </DataFilterProvider>
         </QueryProvider>
       </body>
     </html>

@@ -1,10 +1,10 @@
 'use client';
 
 import { useQuery } from '@tanstack/react-query';
-import Loading from '../../../components/Loading';
-import Authorization from '../../../components/Authorization';
-import FlagIcon from '../../../components/FlagIcon'
-import ImageWithSkeleton from '../../../components/ImageWithSkeleton';
+import Loading from '../../components/Loading';
+import Authorization from '../../components/Authorization';
+import FlagIcon from '../../components/FlagIcon'
+import ImageWithSkeleton from '../../components/ImageWithSkeleton';
 
 interface ClaimedCity {
   city: string;

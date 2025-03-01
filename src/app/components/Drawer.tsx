@@ -21,10 +21,10 @@ export default function Drawer({ isOpen, onClose, children }: DrawerProps) {
   return (
     <AnimatePresence>
       {isOpen && (
-        <div className="fixed inset-0 z-50 flex flex-col items-center justify-end">
+        <div className="fixed inset-0 z-50 flex flex-col items-center justify-end  z-[2000]">
           {/* Overlay (Behind Drawer) */}
           <div 
-            className="absolute inset-0 bg-black/60" 
+            className="absolute inset-0 bg-black/60 z-[1999]" 
             onClick={onClose} 
           />
 
@@ -34,7 +34,7 @@ export default function Drawer({ isOpen, onClose, children }: DrawerProps) {
             animate={{ y: 0 }} // Slide up
             exit={{ y: "100%" }} // Slide down on close
             transition={{ duration: 0.3, ease: "easeOut" }}
-            className="relative w-full px-20 bg-white p-6 shadow-lg"
+            className="relative w-full px-20 bg-white p-6 shadow-lg z-[2001]"
           >
             {/* Close Button */}
             <div className="flex justify-between items-center pb-2">
