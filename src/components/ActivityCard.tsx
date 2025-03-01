@@ -3,6 +3,7 @@
 import { Activity } from '@/types';
 import React from 'react';
 import Avatar from './Avatar';
+import ImageWithSkeleton from './ImageWithSkeleton'
 
 interface ActivityCardProps {
   activity: Activity;
@@ -21,10 +22,11 @@ export const ActivityCard: React.FC<ActivityCardProps> = ({ activity }) => {
 
       {/* Left Column: Picture */}
       <div className="w-full sm:w-1/3 flex items-center justify-center">
-        <img
+        <ImageWithSkeleton 
+          key={activity.id} 
           src={activity.map_url || "/treadmill.png"}
-          alt={`${activity.city} Activity`}
-          className={`object-cover ${!activity.map_url ? "p-16 bg-gray-100 opacity-80" : "h-full w-full aspect-[4/3]"}`}
+          alt=''
+          className={`object-cover ${!activity.map_url ? "p-16 bg-gray-100 opacity-80" : "h-full w-full aspect-[4/3]"}`} 
         />
       </div>
 

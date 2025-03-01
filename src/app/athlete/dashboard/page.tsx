@@ -7,7 +7,7 @@ import Greeting from '../../../components/Greeting';
 import Loading from '../../../components/Loading';
 import { Activity } from '@/types';
 import { formatDate } from '../../../lib/dateUtil'
-import Authorize from '../../../components/Authorization'
+import Authorization from '../../../components/Authorization'
 import { FcCalendar } from "react-icons/fc";
 
 
@@ -26,7 +26,7 @@ export default function ActivitiesPage() {
       throw new Error('Failed to fetch activities');
     }
     const data = await response.json();
-    return data.activities; // Return the `activities` array directly
+    return data.activities; 
   };
 
   const {
@@ -72,7 +72,7 @@ export default function ActivitiesPage() {
   }, {} as Record<string, Activity[]>);
 
   return (
-    <Authorize>
+    <Authorization>
       {(user) =>
     <div className="mt-60 max-w-7xl mx-auto px-8 lg:px-8">
         <Greeting name={user.given_name ?? ""}/>
@@ -176,6 +176,6 @@ export default function ActivitiesPage() {
     </div>  
   }
 
-    </Authorize>
+    </Authorization>
   );
 }

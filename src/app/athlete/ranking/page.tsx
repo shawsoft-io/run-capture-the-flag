@@ -68,7 +68,6 @@ export default function LeagueTablePage() {
                   <th className="px-3 py-3.5 text-center text-sm font-semibold text-gray-900">Activities</th>
                   <th className="px-3 py-3.5 text-center text-sm font-semibold text-gray-900">Distance<br/>Time</th>
                   <th className="px-3 py-3.5 text-center text-sm font-semibold text-gray-900">Points</th>
-
                 </tr>
               </thead>
 
@@ -136,9 +135,9 @@ export default function LeagueTablePage() {
                         <ChartContainer config={chartConfig} className="mx-auto aspect-square max-h-[150px]">
                          
 {/* Pie Chart Rendering */}
-<PieChart width={80} height={80}>
+<PieChart width={50} height={50}>
   <ChartTooltip cursor={false} content={<ChartTooltipContent hideLabel />} />
-  <Pie data={chartData} dataKey="value" nameKey="name" innerRadius={45} strokeWidth={1}>
+  <Pie data={chartData} dataKey="value" nameKey="name" innerRadius={35} strokeWidth={1}>
     {chartData.map((entry, index) => (
       <Cell
         key={`cell-${index}`}
@@ -158,7 +157,7 @@ export default function LeagueTablePage() {
             <tspan
               x={viewBox.cx}
               y={viewBox.cy}
-              className="fill-foreground text-3xl font-bold"
+              className="fill-foreground text-2xl font-bold"
             >
               {athlete.totalPoints}
             </tspan>

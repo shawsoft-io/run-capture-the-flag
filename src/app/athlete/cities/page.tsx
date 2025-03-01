@@ -4,17 +4,18 @@ import { useQuery } from '@tanstack/react-query';
 import Loading from '../../../components/Loading';
 import Authorization from '../../../components/Authorization';
 import FlagIcon from '../../../components/FlagIcon'
+import ImageWithSkeleton from '../../../components/ImageWithSkeleton';
 
 interface ClaimedCity {
   city: string;
   name: string;
   distance: number;
-  picture: string; // Claimer's photo
-  city_photo_url: string; // City Image URL
+  picture: string;
+  city_photo_url: string; 
 }
 
 interface ClaimedCountry {
-  _id: string; // Country name
+  _id: string;
   cities: ClaimedCity[];
 }
 
@@ -50,10 +51,11 @@ export default function ClaimedCityPage() {
                 {country.cities.map((claimedCity, index) => (
                   <div key={index} className="relative w-full rounded-lg overflow-hidden shadow-lg">
                     {/* City Image */}
-                    <img
+                    <ImageWithSkeleton
+                      key={claimedCity.name}
                       src={claimedCity.city_photo_url}
-                      alt={claimedCity.city}
-                      className="w-full h-64 object-cover"
+                      alt={claimedCity.name}
+                      className='w-full h-64 object-cover'
                     />
 
                     {/* Overlay for Claimer Info */}

@@ -20,15 +20,20 @@ const Authorization: React.FC<ExtendedUserProps> = ({
   requiredRoles = [],
 }) => {
   const { user, isLoading } = useUser();
+  console.error(useUser())
   const router = useRouter();
   const [isVerified, setIsVerified] = useState(false);
   const [isRedirecting, setIsRedirecting] = useState(false);
 
   useEffect(() => {
+
+    console.log("Ok");
+
     if (isLoading || !user) {
       // Wait for user to load
       return;
     }
+
 
     const userRoles = (user as ExtendedUserProfile)?.['https://run.shawsoft.io/roles'] || [];
     if (userRoles.length === 0) {
@@ -47,6 +52,7 @@ const Authorization: React.FC<ExtendedUserProps> = ({
 
     setIsVerified(true);
   }, [isLoading, user, router, requiredRoles, pendingVerificationPath, unauthorizedPath]);
+
 
   if (isLoading || isRedirecting) {
     return <Loading />;
